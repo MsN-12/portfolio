@@ -1,46 +1,707 @@
-{{ define "main" }}
-<script>
-// Ensure splash screen loads before content
-document.addEventListener("DOMContentLoaded", function() {
-    // Hide main content initially
-    var mainContent = document.querySelector('.container');
-    if (mainContent) {
-        mainContent.style.opacity = '0';
-        mainContent.style.transition = 'opacity 0.5s ease-in';
-
-        // Show content after splash or after delay
-        setTimeout(function() {
-            mainContent.style.opacity = '1';
-        }, 4000);
-
-        // Also show content when splash is removed
-        var observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.type === 'childList') {
-                    var splash = document.getElementById('terminal-splash');
-                    if (!splash) {
-                        mainContent.style.opacity = '1';
-                        observer.disconnect();
-                    }
-                }
-            });
-        });
-
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
+{{ define "title" }}{{ .Site.Title }}{{ end }} {{ define "main" }}
+<style>
+    /* Modern Terminal Card Design for Hugo */
+    .post {
+        max-width: 1600px !important;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
     }
-});
-</script>
+
+    .post__content {
+        max-width: none !important;
+        width: 100%;
+    }
+
+    .hero-card {
+        background: rgba(26, 26, 26, 0.8);
+        border: 1px solid var(--accent, #ffa86b);
+        border-radius: 8px;
+        padding: 2.5rem 3rem;
+        margin: 0 1rem 3rem 1rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), rgba(255, 168, 107, 0.3));
+    }
+
+    .basmala {
+        text-align: right;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        color: var(--accent);
+        opacity: 0.8;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--color);
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .hero-contact {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: rgba(169, 169, 179, 0.9);
+
+        font-size: 0.9rem;
+    }
+
+    .contact-item a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .contact-item a:hover {
+        opacity: 0.8;
+    }
+
+    .quote {
+        text-align: center;
+        font-style: italic;
+        color: var(--accent);
+        margin: 2rem 0;
+        padding: 1rem;
+        border-left: 4px solid var(--accent);
+        background: rgba(255, 168, 107, 0.05);
+        border-radius: 0 4px 4px 0;
+    }
+
+    .section-card {
+        background: rgba(41, 42, 45, 0.8);
+        border: 1px solid var(--accent, #ffa86b);
+        border-radius: 8px;
+        padding: 2rem 3rem;
+        margin: 0 1rem 2rem 1rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .section-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        border-color: var(--accent, #ffa86b);
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .section-title::before {
+        content: "▶";
+        color: var(--accent);
+        font-size: 1rem;
+    }
+
+    .experience-grid {
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    .experience-item {
+        background: rgba(26, 26, 26, 0.8);
+        border: 1px solid var(--accent, #ffa86b);
+        border-radius: 6px;
+        padding: 1.5rem;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .experience-item:hover {
+        transform: translateX(5px);
+        box-shadow:
+            -4px 0 0 var(--accent),
+            0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .job-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--accent);
+        margin: 0;
+    }
+
+    .company-info {
+        color: rgba(169, 169, 179, 0.8);
+        font-size: 0.9rem;
+    }
+
+    .date-range {
+        color: var(--accent);
+        font-size: 0.85rem;
+        font-weight: 500;
+        background: rgba(255, 168, 107, 0.1);
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 168, 107, 0.2);
+    }
+
+    .experience-highlights {
+        list-style: none;
+        padding: 0;
+    }
+
+    .experience-highlights li {
+        margin-bottom: 0.75rem;
+        padding-left: 1rem;
+        position: relative;
+        color: rgba(169, 169, 179, 0.95);
+        line-height: 1.6;
+    }
+
+    .experience-highlights li::before {
+        content: "•";
+        color: var(--accent);
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+    }
+
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .skill-category {
+        background: rgba(41, 42, 45, 0.8);
+        border: 1px solid var(--accent, #ffa86b);
+        border-radius: 6px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .skill-category:hover {
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .skill-category-title {
+        font-size: 1.1rem;
+        color: var(--accent);
+        margin-bottom: 1rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .skill-tag {
+        background: rgba(41, 42, 45, 0.8);
+        color: var(--color);
+        padding: 0.4rem 0.8rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        border: 1px solid var(--accent, #ffa86b);
+        transition: all 0.3s ease;
+    }
+
+    .skill-tag:hover {
+        background: rgba(26, 26, 26, 0.8);
+        transform: translateY(-1px);
+    }
+
+    .awards-grid {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .award-item {
+        background: rgba(26, 26, 26, 0.8);
+        border: 1px solid var(--accent, #ffa86b);
+        border-radius: 6px;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .award-item:hover {
+        background: rgba(41, 42, 45, 0.8);
+        transform: translateX(3px);
+    }
+
+    .award-icon {
+        font-size: 1.5rem;
+        color: var(--accent);
+    }
+
+    .award-content {
+        flex: 1;
+    }
+
+    .award-title {
+        font-weight: 600;
+        color: var(--color);
+        margin-bottom: 0.25rem;
+    }
+
+    .award-details {
+        color: rgba(169, 169, 179, 0.8);
+        font-size: 0.9rem;
+    }
+
+    .contact-card {
+        background: linear-gradient(135deg, rgba(26, 26, 26, 0.8), rgba(41, 42, 45, 0.8));
+        border: 1px solid var(--accent, #ffa86b);
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .contact-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        background: rgba(41, 42, 45, 0.8);
+        border: 1px solid var(--accent, #ffa86b);
+        border-radius: 6px;
+        color: var(--accent);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+
+    .contact-link:hover {
+        background: rgba(26, 26, 26, 0.8);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .interests {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .interest-tag {
+        background: rgba(41, 42, 45, 0.8);
+        color: var(--accent);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        border: 1px solid var(--accent, #ffa86b);
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .interest-tag:hover {
+        background: rgba(26, 26, 26, 0.8);
+        transform: scale(1.05);
+    }
+
+    .what-looking-for {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .looking-tag {
+        background: rgba(41, 42, 45, 0.8);
+        color: var(--accent);
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        border: 1px solid var(--accent, #ffa86b);
+    }
+
+    @media (max-width: 768px) {
+        .post {
+            padding: 1rem 1.25rem;
+        }
+
+        .hero-card {
+            padding: 1.5rem;
+            margin: 0 1.25rem 3rem 1.25rem;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .section-card {
+            padding: 1.5rem;
+            margin: 0 1.25rem 2rem 1.25rem;
+        }
+
+        .job-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .skills-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .contact-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-title {
+            font-size: 1.8rem;
+        }
+
+        .hero-contact {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-card {
+            padding: 1.5rem 1rem;
+            margin: 0 0.25rem 3rem 0.25rem;
+        }
+
+        .section-card {
+            padding: 1rem 1.25rem;
+            margin: 0 0.25rem 2rem 0.25rem;
+        }
+
+        .experience-item {
+            padding: 1rem;
+        }
+    }
+</style>
 
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header class="post__header">
-    <h1 class="post__title" itemprop="name headline">{{ .Title }}</h1>
-  </header>
+    <header class="post__header">
+        <h1 class="post__title" itemprop="name headline" style="display: none">{{ .Title }}</h1>
+    </header>
 
-  <div class="post__content" itemprop="articleBody">
-    {{ .Content }}
-  </div>
+    <div class="post__content" itemprop="articleBody">
+        <!-- Hero Card -->
+        <div class="hero-card">
+            <div class="basmala">﷽</div>
+            <h1 class="hero-title">Mohsen Abdolahi</h1>
+            <div class="hero-subtitle">SOFTWARE ENGINEER - BACKEND DEVELOPER</div>
+
+            <div class="hero-contact">
+                <div class="contact-item">📍 Iran, Fars</div>
+                <div class="contact-item">📞 <a href="tel:+989390433026">(+98) 9390433026</a></div>
+                <div class="contact-item">
+                    📧 <a href="mailto:mohsen12abdolahi@gmail.com">mohsen12abdolahi@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    🌐 <a href="https://mohsenabdolahi.liara.run" target="_blank">mohsenabdolahi.liara.run</a>
+                </div>
+                <div class="contact-item">
+                    💼 <a href="https://linkedin.com/in/mohsen-abdolahi" target="_blank">LinkedIn</a>
+                </div>
+                <div class="contact-item">🐙 <a href="https://github.com/MsN-12" target="_blank">GitHub</a></div>
+            </div>
+
+            <div class="quote">"The best deeds are the hardest"</div>
+        </div>
+
+        <!-- About Section -->
+        <div class="section-card" id="about">
+            <h2 class="section-title">About Me</h2>
+            <p>
+                Seasoned software engineer with a track record of delivering innovative solutions. Skilled in developing
+                robust business applications, tools for engineering teams, and scalable infrastructure while maintaining
+                and optimizing Linux environments.
+            </p>
+
+            <p>
+                As a former co-founder of a game studio, I bring both technical depth and strategic vision, combining
+                creativity with execution. I have worked on large-scale projects with a single massive codebase
+                supporting diverse business logic, where adaptability and precision were key.
+            </p>
+
+            <p><strong>I deliver reliable solutions in complex systems with precision and adaptability.</strong></p>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="section-card" id="experience">
+            <h2 class="section-title">Work Experience</h2>
+
+            <div class="experience-grid">
+                <!-- Baramjk -->
+                <div class="experience-item">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Backend Developer</h3>
+                            <div class="company-info">Baramjk (Remote, Kuwait)</div>
+                        </div>
+                        <div class="date-range">Dec. 2024 - Sep. 2025</div>
+                    </div>
+
+                    <ul class="experience-highlights">
+                        <li>
+                            <strong>Large-Scale System Management:</strong> Developed multiple projects for diverse
+                            business requirements within a single, generic C# .NET codebase, where a single code change
+                            could impact 100+ website and mobile application servers
+                        </li>
+                        <li>
+                            <strong>API Integration Leadership:</strong> Worked closely with frontend and mobile teams,
+                            creating and maintaining Postman documentation for APIs and providing technical guidance
+                        </li>
+                        <li>
+                            <strong>Infrastructure Management:</strong> Designed comprehensive backend dashboard for
+                            server management, including server operations, monitoring systems, and administrative tools
+                        </li>
+                        <li>
+                            <strong>Third-Party Integration:</strong> Integrated backend systems with external asset
+                            management services to streamline resource handling and deployment
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Morvarid Game Studio -->
+                <div class="experience-item">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Backend Developer & Server Manager</h3>
+                            <div class="company-info">Morvarid Game Studio (Bushehr, Iran)</div>
+                        </div>
+                        <div class="date-range">Dec. 2023 - Aug. 2025</div>
+                    </div>
+
+                    <ul class="experience-highlights">
+                        <li>
+                            <strong>Namdaran Game Development:</strong> Complete game backend using Nakama with Golang -
+                            game logic, database layer, matchmaking, leaderboards, tournaments, clans, global chat, shop
+                            validation, and inventory systems
+                        </li>
+                        <li>
+                            <strong>Dataa Quiz Game:</strong> C# backend development including player systems,
+                            matchmaking, profiles, shop functionality, and admin tools for question management
+                        </li>
+                        <li>
+                            <strong>Infrastructure & DevOps:</strong> Maintained Linux servers, implemented CI/CD
+                            pipelines, blue-green deployment with HAProxy, and comprehensive monitoring with Grafana,
+                            Loki, and Promtail
+                        </li>
+                        <li>
+                            <strong>DevLoop Social Panel:</strong> React application for player communication and
+                            moderation with notification systems and report management workflows
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- PGU APA -->
+                <div class="experience-item">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Penetration Tester</h3>
+                            <div class="company-info">PGU APA (Bushehr, Iran)</div>
+                        </div>
+                        <div class="date-range">Nov. 2022, Dec. 2023</div>
+                    </div>
+
+                    <ul class="experience-highlights">
+                        <li>
+                            <strong>Security Testing:</strong> Conducted comprehensive penetration testing on web
+                            applications using OWASP methodology
+                        </li>
+                        <li>
+                            <strong>Competitive Security:</strong> Participated in Capture The Flag (CTF) competitions,
+                            solving various security challenges as part of a team
+                        </li>
+                        <li>
+                            <strong>Continuous Learning:</strong> Studied network security principles and gained
+                            hands-on experience with Linux systems
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="section-card" id="skills">
+            <h2 class="section-title">Technical Skills</h2>
+
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4 class="skill-category-title">🎯 Expert In</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">C#</span>
+                        <span class="skill-tag">ASP.NET Core</span>
+                        <span class="skill-tag">Golang</span>
+                        <span class="skill-tag">MVC Architecture</span>
+                        <span class="skill-tag">REST APIs</span>
+                        <span class="skill-tag">SQL Server</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">Clean Architecture</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h4 class="skill-category-title">⚡ Work With</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Nginx</span>
+                        <span class="skill-tag">HAProxy</span>
+                        <span class="skill-tag">GitHub Actions</span>
+                        <span class="skill-tag">Grafana</span>
+                        <span class="skill-tag">Redis</span>
+                        <span class="skill-tag">DDD</span>
+                        <span class="skill-tag">Microservices</span>
+                        <span class="skill-tag">OWASP</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h4 class="skill-category-title">📚 Familiar With</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">RabbitMQ</span>
+                        <span class="skill-tag">Kafka</span>
+                        <span class="skill-tag">Elasticsearch</span>
+                        <span class="skill-tag">Kubernetes</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag"> Blazor</span>
+                        <span class="skill-tag">Event-Driven Architecture</span>
+                        <span class="skill-tag">TDD</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h4 class="skill-category-title">🤝 Soft Skills</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Growth Mindset</span>
+                        <span class="skill-tag">Adaptability</span>
+                        <span class="skill-tag">Teamwork</span>
+                        <span class="skill-tag">Agile/Scrum</span>
+                        <span class="skill-tag">Problem-Solving</span>
+                        <span class="skill-tag">Communication</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="section-card">
+            <h2 class="section-title">Education</h2>
+            <div class="experience-item">
+                <div class="job-header">
+                    <div>
+                        <h3 class="job-title">B.S. in Computer Science and Engineering</h3>
+                        <div class="company-info">Persian Gulf University (PGU) - Bushehr, Iran</div>
+                    </div>
+                    <div class="date-range">2020 - 2024</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Awards -->
+        <div class="section-card">
+            <h2 class="section-title">Honors & Awards</h2>
+            <div class="awards-grid">
+                <div class="award-item">
+                    <div class="award-icon">🏆</div>
+                    <div class="award-content">
+                        <div class="award-title">Top 10 - Quera Security Hackathon</div>
+                        <div class="award-details">2023 | <a href="#" target="_blank">Certification</a></div>
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-icon">🏆</div>
+                    <div class="award-content">
+                        <div class="award-title">Participant - Quera C# and .NET Hackathon</div>
+                        <div class="award-details">2023 | <a href="#" target="_blank">Certification</a></div>
+                    </div>
+                </div>
+
+                <div class="award-item">
+                    <div class="award-icon">🏆</div>
+                    <div class="award-content">
+                        <div class="award-title">Top Winners - Quera Irancell Labs AI Hackathon</div>
+                        <div class="award-details">2023 | <a href="#" target="_blank">Certification</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="section-card contact-card" id="contact">
+            <h2 class="section-title">Let's Connect</h2>
+            <p>
+                I'm always interested in discussing new opportunities, collaborating on challenging projects, or sharing
+                insights about backend development and system architecture.
+            </p>
+
+            <div class="contact-grid">
+                <a href="mailto:mohsen12abdolahi@gmail.com" class="contact-link"> 📧 Email </a>
+                <a href="https://linkedin.com/in/mohsen-abdolahi" target="_blank" class="contact-link"> 💼 LinkedIn </a>
+                <a href="https://github.com/MsN-12" target="_blank" class="contact-link"> 🐙 GitHub </a>
+                <a href="https://mohsenabdolahi.liara.run" target="_blank" class="contact-link"> 🌐 Portfolio </a>
+                <a href="tel:+989390433026" class="contact-link"> 📱 Phone </a>
+            </div>
+        </div>
+
+        <!-- Interests -->
+        <div class="section-card">
+            <h2 class="section-title">🎮 Interests & Hobbies</h2>
+            <div class="interests">
+                <span class="interest-tag">💪 Gym</span>
+                <span class="interest-tag">🎮 ESports</span>
+                <span class="interest-tag">✈️ Travel</span>
+                <span class="interest-tag">🧠 Neuroscience</span>
+                <span class="interest-tag">🎵 Music</span>
+            </div>
+        </div>
+    </div>
 </article>
 {{ end }}

@@ -1,14 +1,16 @@
 <style>
-    /* Terminal Splash Screen Styles */
+    /* Terminal Splash Screen - Matching Terminal Theme */
     #terminal-splash {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100vh;
-        background: #1a1a1a;
-        color: #00ff41;
-        font-family: "Courier New", "Consolas", monospace;
+        background: var(--background, #292a2d);
+        color: var(--color, #a9a9b3);
+        font-family:
+            "Fira Code", "SF Mono", "Monaco", "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", "Lucida Console",
+            Monaco, monospace;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -17,6 +19,8 @@
         transition:
             opacity 0.8s ease-out,
             visibility 0.8s ease-out;
+        opacity: 1;
+        visibility: visible;
     }
 
     #terminal-splash.hidden {
@@ -25,81 +29,94 @@
     }
 
     .terminal-window {
-        background: #000;
-        border: 2px solid #333;
-        border-radius: 8px;
+        background: var(--background, #292a2d);
+        border: 1px solid var(--accent, #ffa86b);
+        border-radius: 6px;
         width: 90%;
-        max-width: 800px;
-        box-shadow: 0 4px 20px rgba(0, 255, 65, 0.3);
+        max-width: 700px;
+        box-shadow: 0 8px 32px rgba(255, 168, 107, 0.15);
+        overflow: hidden;
     }
 
     .terminal-header {
-        background: #333;
+        background: rgba(255, 168, 107, 0.1);
         padding: 12px 16px;
-        border-radius: 6px 6px 0 0;
         display: flex;
         align-items: center;
         gap: 8px;
+        border-bottom: 1px solid rgba(255, 168, 107, 0.2);
     }
 
     .terminal-dot {
         width: 12px;
         height: 12px;
         border-radius: 50%;
+        opacity: 0.7;
     }
 
     .dot-red {
-        background: #ff5f56;
+        background: #ff6b5b;
     }
     .dot-yellow {
-        background: #ffbd2e;
+        background: var(--accent, #ffa86b);
     }
     .dot-green {
-        background: #27ca3f;
+        background: #4ecdc4;
     }
 
     .terminal-title {
-        color: #ccc;
-        font-size: 14px;
-        margin-left: 20px;
+        color: var(--accent, #ffa86b);
+        font-size: 13px;
+        margin-left: 16px;
+        font-weight: 500;
     }
 
     .terminal-body {
-        padding: 30px;
+        padding: 40px 30px;
+        background: var(--background, #292a2d);
         min-height: 200px;
-        background: #000;
-        border-radius: 0 0 6px 6px;
     }
 
     .terminal-prompt {
-        color: #00ff41;
-        margin-bottom: 20px;
+        color: var(--accent, #ffa86b);
+        margin-bottom: 24px;
         font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .terminal-prompt::before {
+        content: "❯";
+        color: var(--accent, #ffa86b);
+        font-weight: bold;
     }
 
     .terminal-command {
-        color: #ffffff;
-        font-size: 24px;
-        font-weight: bold;
-        letter-spacing: 1px;
-        margin-bottom: 30px;
+        color: var(--color, #a9a9b3);
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-bottom: 32px;
         min-height: 40px;
+        line-height: 1.2;
     }
 
     .terminal-cursor {
         display: inline-block;
-        background: #00ff41;
-        color: #000;
-        width: 12px;
+        background: var(--accent, #ffa86b);
+        color: var(--background, #292a2d);
+        width: 2px;
         height: 1.2em;
         animation: cursor-blink 1s infinite;
         margin-left: 2px;
+        vertical-align: text-bottom;
     }
 
     .terminal-cursor.heartbeat {
         animation: heartbeat 0.8s infinite;
         background: transparent;
-        color: #ff4757;
+        color: #ff6b5b;
         width: auto;
     }
 
@@ -133,42 +150,94 @@
     }
 
     .terminal-info {
-        color: #888;
-        font-size: 14px;
-        margin-top: 20px;
+        color: rgba(169, 169, 179, 0.8);
+        font-size: 15px;
+        line-height: 1.6;
+        margin-top: 24px;
         opacity: 0;
-        animation: fade-in 0.5s ease-in 3s forwards;
+        transition: opacity 0.5s ease-in;
     }
 
-    @keyframes fade-in {
-        to {
-            opacity: 1;
+    .terminal-loading {
+        color: var(--accent, #ffa86b);
+        font-size: 14px;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .loading-spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 168, 107, 0.3);
+        border-top: 2px solid var(--accent, #ffa86b);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
         }
     }
 
-    .loading-dots {
-        color: #00ff41;
-        font-size: 16px;
-        margin-top: 15px;
+    /* Skip instruction */
+    .skip-instruction {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(169, 169, 179, 0.6);
+        font-size: 12px;
+        opacity: 0;
+        animation: fade-in-up 0.5s ease-in 2s forwards;
     }
 
+    @keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+
+    /* Mobile responsiveness */
     @media (max-width: 768px) {
         .terminal-window {
             width: 95%;
             margin: 20px;
         }
         .terminal-body {
-            padding: 20px;
+            padding: 30px 20px;
         }
         .terminal-command {
+            font-size: 24px;
+        }
+        .terminal-prompt {
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .terminal-command {
             font-size: 20px;
+        }
+        .terminal-body {
+            padding: 25px 15px;
         }
     }
 </style>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Create splash screen HTML
+        // Create splash screen HTML with Terminal theme styling
         var splashHTML = `
         <div id="terminal-splash">
             <div class="terminal-window">
@@ -179,21 +248,27 @@
                     <div class="terminal-title">mohsen@portfolio:~</div>
                 </div>
                 <div class="terminal-body">
-                    <div class="terminal-prompt">$ whoami</div>
+                    <div class="terminal-prompt">whoami</div>
                     <div class="terminal-command" id="typed-name">
                         <span class="terminal-cursor"></span>
                     </div>
-                    <div class="terminal-info" style="opacity: 0;">
+                    <div class="terminal-info">
                         Backend Developer | Software Engineer<br>
-                        Specializing in C# • Golang • System Architecture
+                        C# • Golang • System Architecture
                     </div>
-                    <div class="loading-dots">Loading portfolio...</div>
+                    <div class="terminal-loading">
+                        <div class="loading-spinner"></div>
+                        Initializing portfolio...
+                    </div>
                 </div>
             </div>
+            <div class="skip-instruction">
+                Press any key or click to skip
+            </div>
         </div>
-    `;
+        `;
 
-        // Insert splash screen at the beginning of body
+        // Insert splash screen
         document.body.insertAdjacentHTML("afterbegin", splashHTML);
 
         var splash = document.getElementById("terminal-splash");
@@ -209,9 +284,9 @@
                 var currentText = fullName.substring(0, currentIndex + 1);
                 typedName.innerHTML = currentText + '<span class="terminal-cursor"></span>';
                 currentIndex++;
-                setTimeout(typeWriter, Math.random() * 100 + 80);
+                setTimeout(typeWriter, Math.random() * 80 + 60);
             } else {
-                setTimeout(startHeartbeat, 800);
+                setTimeout(startHeartbeat, 600);
             }
         }
 
@@ -222,10 +297,9 @@
             var infoDiv = splash.querySelector(".terminal-info");
             if (infoDiv) {
                 infoDiv.style.opacity = "1";
-                infoDiv.style.transition = "opacity 0.5s ease-in";
             }
 
-            setTimeout(fadeOutSplash, 2000);
+            setTimeout(fadeOutSplash, 1800);
         }
 
         function fadeOutSplash() {
@@ -237,7 +311,7 @@
             }, 800);
         }
 
-        // Skip splash on click or key press
+        // Skip splash functionality
         function skipSplash(e) {
             if (e) e.preventDefault();
             if (!splash.classList.contains("hidden")) {
@@ -245,21 +319,46 @@
             }
         }
 
+        // Event listeners for skipping
         splash.addEventListener("click", skipSplash);
         document.addEventListener("keydown", function (e) {
-            if (e.key === "Enter" || e.key === "Escape" || e.key === " ") {
-                skipSplash(e);
-            }
+            skipSplash(e);
         });
 
         // Start animation
-        setTimeout(typeWriter, 600);
+        setTimeout(typeWriter, 800);
 
-        // Fallback removal after 8 seconds
+        // Fallback removal after 7 seconds
         setTimeout(function () {
             if (splash && !splash.classList.contains("hidden")) {
                 fadeOutSplash();
             }
-        }, 8000);
+        }, 7000);
     });
 </script>
+
+<!-- Global Container Width Override for Wider Layout -->
+<style>
+    /* Make the main container wider */
+    .container {
+        max-width: 1600px !important;
+        padding: 0 3rem !important;
+    }
+
+    .main {
+        max-width: none !important;
+    }
+
+    /* Reduce margins on smaller screens */
+    @media (max-width: 768px) {
+        .container {
+            padding: 0 2rem !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            padding: 0 1.5rem !important;
+        }
+    }
+</style>

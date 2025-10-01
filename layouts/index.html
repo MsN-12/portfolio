@@ -1,0 +1,46 @@
+{{ define "main" }}
+<script>
+// Ensure splash screen loads before content
+document.addEventListener("DOMContentLoaded", function() {
+    // Hide main content initially
+    var mainContent = document.querySelector('.container');
+    if (mainContent) {
+        mainContent.style.opacity = '0';
+        mainContent.style.transition = 'opacity 0.5s ease-in';
+
+        // Show content after splash or after delay
+        setTimeout(function() {
+            mainContent.style.opacity = '1';
+        }, 4000);
+
+        // Also show content when splash is removed
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList') {
+                    var splash = document.getElementById('terminal-splash');
+                    if (!splash) {
+                        mainContent.style.opacity = '1';
+                        observer.disconnect();
+                    }
+                }
+            });
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+});
+</script>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post__header">
+    <h1 class="post__title" itemprop="name headline">{{ .Title }}</h1>
+  </header>
+
+  <div class="post__content" itemprop="articleBody">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

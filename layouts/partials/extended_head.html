@@ -1,0 +1,265 @@
+<style>
+    /* Terminal Splash Screen Styles */
+    #terminal-splash {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: #1a1a1a;
+        color: #00ff41;
+        font-family: "Courier New", "Consolas", monospace;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition:
+            opacity 0.8s ease-out,
+            visibility 0.8s ease-out;
+    }
+
+    #terminal-splash.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .terminal-window {
+        background: #000;
+        border: 2px solid #333;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 800px;
+        box-shadow: 0 4px 20px rgba(0, 255, 65, 0.3);
+    }
+
+    .terminal-header {
+        background: #333;
+        padding: 12px 16px;
+        border-radius: 6px 6px 0 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .terminal-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+
+    .dot-red {
+        background: #ff5f56;
+    }
+    .dot-yellow {
+        background: #ffbd2e;
+    }
+    .dot-green {
+        background: #27ca3f;
+    }
+
+    .terminal-title {
+        color: #ccc;
+        font-size: 14px;
+        margin-left: 20px;
+    }
+
+    .terminal-body {
+        padding: 30px;
+        min-height: 200px;
+        background: #000;
+        border-radius: 0 0 6px 6px;
+    }
+
+    .terminal-prompt {
+        color: #00ff41;
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    .terminal-command {
+        color: #ffffff;
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-bottom: 30px;
+        min-height: 40px;
+    }
+
+    .terminal-cursor {
+        display: inline-block;
+        background: #00ff41;
+        color: #000;
+        width: 12px;
+        height: 1.2em;
+        animation: cursor-blink 1s infinite;
+        margin-left: 2px;
+    }
+
+    .terminal-cursor.heartbeat {
+        animation: heartbeat 0.8s infinite;
+        background: transparent;
+        color: #ff4757;
+        width: auto;
+    }
+
+    @keyframes cursor-blink {
+        0%,
+        50% {
+            opacity: 1;
+        }
+        51%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes heartbeat {
+        0% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(1.3);
+        }
+        50% {
+            transform: scale(1);
+        }
+        75% {
+            transform: scale(1.2);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .terminal-info {
+        color: #888;
+        font-size: 14px;
+        margin-top: 20px;
+        opacity: 0;
+        animation: fade-in 0.5s ease-in 3s forwards;
+    }
+
+    @keyframes fade-in {
+        to {
+            opacity: 1;
+        }
+    }
+
+    .loading-dots {
+        color: #00ff41;
+        font-size: 16px;
+        margin-top: 15px;
+    }
+
+    @media (max-width: 768px) {
+        .terminal-window {
+            width: 95%;
+            margin: 20px;
+        }
+        .terminal-body {
+            padding: 20px;
+        }
+        .terminal-command {
+            font-size: 20px;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Create splash screen HTML
+        var splashHTML = `
+        <div id="terminal-splash">
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-dot dot-red"></div>
+                    <div class="terminal-dot dot-yellow"></div>
+                    <div class="terminal-dot dot-green"></div>
+                    <div class="terminal-title">mohsen@portfolio:~</div>
+                </div>
+                <div class="terminal-body">
+                    <div class="terminal-prompt">$ whoami</div>
+                    <div class="terminal-command" id="typed-name">
+                        <span class="terminal-cursor"></span>
+                    </div>
+                    <div class="terminal-info" style="opacity: 0;">
+                        Backend Developer | Software Engineer<br>
+                        Specializing in C# • Golang • System Architecture
+                    </div>
+                    <div class="loading-dots">Loading portfolio...</div>
+                </div>
+            </div>
+        </div>
+    `;
+
+        // Insert splash screen at the beginning of body
+        document.body.insertAdjacentHTML("afterbegin", splashHTML);
+
+        var splash = document.getElementById("terminal-splash");
+        var typedName = document.getElementById("typed-name");
+
+        if (!splash || !typedName) return;
+
+        var fullName = "Mohsen Abdolahi";
+        var currentIndex = 0;
+
+        function typeWriter() {
+            if (currentIndex < fullName.length) {
+                var currentText = fullName.substring(0, currentIndex + 1);
+                typedName.innerHTML = currentText + '<span class="terminal-cursor"></span>';
+                currentIndex++;
+                setTimeout(typeWriter, Math.random() * 100 + 80);
+            } else {
+                setTimeout(startHeartbeat, 800);
+            }
+        }
+
+        function startHeartbeat() {
+            typedName.innerHTML = fullName + '<span class="terminal-cursor heartbeat">♥</span>';
+
+            // Show info text
+            var infoDiv = splash.querySelector(".terminal-info");
+            if (infoDiv) {
+                infoDiv.style.opacity = "1";
+                infoDiv.style.transition = "opacity 0.5s ease-in";
+            }
+
+            setTimeout(fadeOutSplash, 2000);
+        }
+
+        function fadeOutSplash() {
+            splash.classList.add("hidden");
+            setTimeout(function () {
+                if (splash && splash.parentNode) {
+                    splash.parentNode.removeChild(splash);
+                }
+            }, 800);
+        }
+
+        // Skip splash on click or key press
+        function skipSplash(e) {
+            if (e) e.preventDefault();
+            if (!splash.classList.contains("hidden")) {
+                fadeOutSplash();
+            }
+        }
+
+        splash.addEventListener("click", skipSplash);
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === "Escape" || e.key === " ") {
+                skipSplash(e);
+            }
+        });
+
+        // Start animation
+        setTimeout(typeWriter, 600);
+
+        // Fallback removal after 8 seconds
+        setTimeout(function () {
+            if (splash && !splash.classList.contains("hidden")) {
+                fadeOutSplash();
+            }
+        }, 8000);
+    });
+</script>

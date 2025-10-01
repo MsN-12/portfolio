@@ -1,0 +1,116 @@
+baseURL = "https://mohsenabdolahi.github.io/"
+languageCode = "en-us"
+title = "Mohsen Abdolahi"
+theme = "terminal"
+paginate = 5
+
+# Required for Chroma and the custom syntax highlighting
+[markup]
+  [markup.highlight]
+    noClasses = false
+    style = "github-dark"
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[params]
+  # dir name of your main content (default is `content/posts`)
+  # the list of set content will show up on your index page (baseurl)
+  contentTypeName = "posts"
+
+  # if you set this to 0, only submenu trigger will be visible
+  showMenuItems = 4
+
+  # show selector to switch language
+  showLanguageSelector = false
+
+  # set theme to full screen width
+  fullWidthTheme = false
+
+  # center theme with default width
+  centerTheme = true
+
+  # if your resource directory contains an image called `cover.(jpg|png|webp)`,
+  # then the file will be used as a cover automatically
+  autoCover = true
+
+  # set post to show the last updated
+  showLastUpdated = true
+
+  # whether to show a page's estimated reading time
+  readingTime = true
+
+  # whether to show a table of contents
+  Toc = true
+
+  # set title for the table of contents
+  TocTitle = "Table of Contents"
+
+  # Custom color scheme - change yellow to orange
+  themeColor = "orange"
+
+[params.twitter]
+  # set Twitter handles for Twitter cards
+  creator = ""
+  site = ""
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    title = "Mohsen Abdolahi"
+
+    [languages.en.params]
+      subtitle = "Software Engineer - Backend Developer"
+      owner = "Mohsen Abdolahi"
+      keywords = "software engineer, backend developer, c#, golang, .net, web development, programming, game development"
+      copyright = "Mohsen Abdolahi"
+      menuMore = "Show more"
+      readMore = "Read more"
+      readOtherPosts = "Read other posts"
+      newerPosts = "Newer posts"
+      olderPosts = "Older posts"
+      missingContentMessage = "Page not found..."
+      missingBackButtonLabel = "Back to home page"
+      minuteReadingTime = "min read"
+      words = "words"
+
+      [languages.en.params.logo]
+        logoText = "mohsen.dev"
+        logoHomeLink = "/"
+
+      # Single page navigation
+      [languages.en.menu]
+        [[languages.en.menu.main]]
+          identifier = "about"
+          name = "About"
+          url = "#about"
+        [[languages.en.menu.main]]
+          identifier = "experience"
+          name = "Experience"
+          url = "#experience"
+        [[languages.en.menu.main]]
+          identifier = "skills"
+          name = "Skills"
+          url = "#skills"
+        [[languages.en.menu.main]]
+          identifier = "contact"
+          name = "Contact"
+          url = "#contact"
+
+# Social links and contact info
+[params.social]
+  github = "MsN-12"
+  linkedin = "mohsen-abdolahi"
+  email = "mohsen12abdolahi@gmail.com"
+  phone = "+98 9390433026"
+  location = "Iran, Fars"
+  website = "mohsenabdolahi.liara.run"
+
+# Enable Git info for last modified dates
+enableGitInfo = true
+
+# RSS configuration
+[outputs]
+  home = ["HTML", "RSS"]
+  page = ["HTML"]
+  section = ["HTML", "RSS"]

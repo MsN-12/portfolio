@@ -57,7 +57,7 @@ paginate = 5
 [languages]
   [languages.en]
     languageName = "English"
-    title = "Mohsen Abdolahi"
+    title = ""
 
     [languages.en.params]
       subtitle = "Software Engineer - Backend Developer"

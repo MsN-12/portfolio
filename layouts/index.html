@@ -1,5 +1,50 @@
 {{ define "title" }}{{ .Site.Title }}{{ end }} {{ define "main" }}
 <style>
+    /* Smooth scrolling and UX improvements */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Add top margin to header for better visual spacing */
+    .header {
+        margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .header {
+            margin-top: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header {
+            margin-top: 1rem;
+        }
+    }
+
+    /* Animations */
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
     /* Modern Terminal Card Design for Hugo */
     .post {
         max-width: 1600px !important;
@@ -21,6 +66,7 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         position: relative;
         overflow: hidden;
+        animation: slideInUp 0.8s ease-out;
     }
 
     .hero-card::before {
@@ -56,30 +102,19 @@
         letter-spacing: 0.5px;
     }
 
-    .hero-contact {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
-        margin-top: 1.5rem;
+    .hero-about {
+        margin: 2rem 0;
+        padding: 1.5rem 0;
     }
 
-    .contact-item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: rgba(169, 169, 179, 0.9);
-
-        font-size: 0.9rem;
-    }
-
-    .contact-item a {
-        color: var(--accent);
-        text-decoration: none;
-        transition: opacity 0.3s ease;
-    }
-
-    .contact-item a:hover {
-        opacity: 0.8;
+    .hero-tagline {
+        background: linear-gradient(45deg, var(--accent), rgba(255, 168, 107, 0.7));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: 0.5px;
     }
 
     .quote {
@@ -99,8 +134,10 @@
         border-radius: 8px;
         padding: 2rem 3rem;
         margin: 0 1rem 2rem 1rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         transition: all 0.3s ease;
+        animation: fadeInUp 0.6s ease-out;
+        animation-fill-mode: both;
     }
 
     .section-card:hover {
@@ -197,27 +234,51 @@
         font-weight: bold;
     }
 
+    .skills-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .skills-section {
+        background: #1a1a1a;
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        padding: 2rem;
+    }
+
+    .skills-section-title {
+        font-size: 1.4rem;
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
     .skills-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
+        gap: 1rem;
     }
 
     .skill-category {
         background: #1e1e1e;
-        border: 1px solid var(--accent);
+        border: 1px solid rgba(255, 168, 107, 0.3);
         border-radius: 6px;
-        padding: 1.5rem;
+        padding: 1.25rem;
         transition: all 0.3s ease;
     }
 
     .skill-category:hover {
-        transform: scale(1.02);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        border-color: var(--accent);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 168, 107, 0.15);
     }
 
     .skill-category-title {
-        font-size: 1.1rem;
+        font-size: 1rem;
         color: var(--accent);
         margin-bottom: 1rem;
         font-weight: 600;
@@ -226,26 +287,156 @@
         gap: 0.5rem;
     }
 
-    .skill-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
+    .skill-items {
+        display: grid;
+        gap: 0.75rem;
     }
 
-    .skill-tag {
-        background: #1e1e1e;
+    .skill-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 168, 107, 0.1);
+    }
+
+    .skill-item:last-child {
+        border-bottom: none;
+    }
+
+    .skill-icon {
+        font-size: 1.2rem;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .skill-content {
+        flex: 1;
+    }
+
+    .skill-name {
+        font-weight: 600;
         color: var(--color);
-        padding: 0.4rem 0.8rem;
-        border-radius: 4px;
-        font-size: 0.85rem;
-        border: 1px solid var(--accent);
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .skill-description {
+        font-size: 0.8rem;
+        color: rgba(169, 169, 179, 0.8);
+        line-height: 1.3;
+    }
+
+    .skill-level {
+        font-size: 0.75rem;
+        color: var(--accent);
+        font-weight: 500;
+        opacity: 0.8;
+    }
+
+    .soft-skills-grid {
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    .soft-skill-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: #1e1e1e;
+        border: 1px solid rgba(255, 168, 107, 0.2);
+        border-radius: 6px;
         transition: all 0.3s ease;
     }
 
-    .skill-tag:hover {
-        background: rgba(26, 26, 26, 0.8);
-        transform: translateY(-1px);
+    .soft-skill-item:hover {
+        border-color: var(--accent);
+        background: rgba(255, 168, 107, 0.05);
     }
+
+    .soft-skill-icon {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+        margin-top: 0.25rem;
+    }
+
+    .soft-skill-content {
+        flex: 1;
+    }
+
+    .soft-skill-name {
+        font-weight: 600;
+        color: var(--color);
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .soft-skill-description {
+        font-size: 0.85rem;
+        color: rgba(169, 169, 179, 0.85);
+        line-height: 1.4;
+    }
+
+    @media (max-width: 768px) {
+        .skills-container {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 480px) {
+            .skills-section {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Resume Section Styles */
+        .resume-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 168, 107, 0.3);
+        }
+
+        .resume-button:first-child:hover {
+            background: rgba(255, 168, 107, 0.1);
+        }
+    }
+
+    /* Floating Contact Button */
+    .quick-contact {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        color: var(--background);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 20px rgba(255, 168, 107, 0.3);
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+
+    .quick-contact:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 6px 25px rgba(255, 168, 107, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .quick-contact {
+            bottom: 1rem;
+            right: 1rem;
+            width: 45px;
+            height: 45px;
+        }
 
     .awards-grid {
         display: grid;
@@ -386,38 +577,55 @@
         .job-header {
             flex-direction: column;
             align-items: flex-start;
+            gap: 0.5rem;
         }
 
         .skills-grid {
             grid-template-columns: 1fr;
         }
 
-        .contact-grid {
-            grid-template-columns: 1fr;
+
+
+        .hero-about p {
+            font-size: 1rem !important;
+        }
+
+        .hero-tagline {
+            font-size: 1rem !important;
         }
     }
 
     @media (max-width: 480px) {
         .hero-title {
-            font-size: 1.8rem;
-        }
-
-        .hero-contact {
-            grid-template-columns: 1fr;
+            font-size: 1.75rem;
         }
 
         .hero-card {
-            padding: 1.5rem 1rem;
-            margin: 0 0.25rem 3rem 0.25rem;
+            padding: 1.25rem;
+            margin: 0 1rem 2rem 1rem;
         }
 
         .section-card {
-            padding: 1rem 1.25rem;
-            margin: 0 0.25rem 2rem 0.25rem;
+            padding: 1.25rem;
+            margin: 0 1rem 1.5rem 1rem;
         }
 
         .experience-item {
             padding: 1rem;
+        }
+
+        .hero-about {
+            margin: 1.5rem 0 !important;
+            padding: 1rem 0 !important;
+        }
+
+        .hero-about p {
+            font-size: 0.95rem !important;
+            margin-bottom: 1rem !important;
+        }
+
+        .hero-tagline {
+            font-size: 0.9rem !important;
         }
     }
 </style>
@@ -430,44 +638,118 @@
     <div class="post__content" itemprop="articleBody">
         <!-- Hero Card -->
         <div class="hero-card">
-            <div class="basmala">﷽</div>
             <h1 class="hero-title">Mohsen Abdolahi</h1>
             <div class="hero-subtitle">SOFTWARE ENGINEER - BACKEND DEVELOPER</div>
 
-            <div class="hero-contact">
-                <div class="contact-item">📍 Iran, Fars</div>
-                <div class="contact-item">📞 <a href="tel:+989390433026">(+98) 9390433026</a></div>
-                <div class="contact-item">
-                    📧 <a href="mailto:mohsen12abdolahi@gmail.com">mohsen12abdolahi@gmail.com</a>
-                </div>
-                <div class="contact-item">
-                    🌐 <a href="https://mohsenabdolahi.liara.run" target="_blank">mohsenabdolahi.liara.run</a>
-                </div>
-                <div class="contact-item">
-                    💼 <a href="https://linkedin.com/in/mohsen-abdolahi" target="_blank">LinkedIn</a>
-                </div>
-                <div class="contact-item">🐙 <a href="https://github.com/MsN-12" target="_blank">GitHub</a></div>
+            <!-- About Me Section -->
+            <div id="about" class="hero-about" style="margin: 0.75rem 0 0.75rem 0; text-align: left">
+                <div class="quote" style="margin: 0 0 1rem 0">"The best deeds are the hardest"</div>
+
+                <p style="font-size: 1.05rem; line-height: 1.6; color: rgba(169, 169, 179, 0.95); margin-bottom: 1rem">
+                    I am a seasoned software engineer specializing in building robust, scalable backend systems. As a
+                    former game studio co-founder, I bring a unique blend of technical depth, strategic vision, and a
+                    passion for solving complex challenges with creative, precise solutions.
+                </p>
+
+                <p style="font-size: 1.05rem; line-height: 1.6; color: rgba(169, 169, 179, 0.95)">
+                    As a former co-founder of a game studio, I bring both technical depth and strategic vision,
+                    combining creativity with execution. I deliver reliable solutions in complex systems with precision
+                    and adaptability.
+                </p>
             </div>
 
-            <div class="quote">"The best deeds are the hardest"</div>
-        </div>
-
-        <!-- About Section -->
-        <div class="section-card" id="about">
-            <h2 class="section-title">About Me</h2>
-            <p>
-                Seasoned software engineer with a track record of delivering innovative solutions. Skilled in developing
-                robust business applications, tools for engineering teams, and scalable infrastructure while maintaining
-                and optimizing Linux environments.
-            </p>
-
-            <p>
-                As a former co-founder of a game studio, I bring both technical depth and strategic vision, combining
-                creativity with execution. I have worked on large-scale projects with a single massive codebase
-                supporting diverse business logic, where adaptability and precision were key.
-            </p>
-
-            <p><strong>I deliver reliable solutions in complex systems with precision and adaptability.</strong></p>
+            <!-- Modern Action Bar: Resume & Contact -->
+            <div
+                class="hero-actions"
+                style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.75rem;
+                    padding: 0.75rem;
+                    background: #1a1a1a;
+                    border: 1px solid rgba(255, 168, 107, 0.2);
+                    border-radius: 8px;
+                    justify-content: center;
+                "
+            >
+                <a
+                    href="https://docs.google.com/document/d/your-google-doc-id/edit?usp=sharing"
+                    target="_blank"
+                    class="action-button"
+                    style="
+                        flex: 1 1 auto;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 0.5rem;
+                        background: #2a2a2a;
+                        color: #dcdcdc;
+                        padding: 0.6rem 1rem;
+                        border: 1px solid #444;
+                        border-radius: 6px;
+                        text-decoration: none;
+                        font-weight: 500;
+                        font-size: 0.95rem;
+                        transition: all 0.2s ease;
+                    "
+                    onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--accent)';"
+                    onmouseout="this.style.borderColor='#444'; this.style.color='#dcdcdc';"
+                >
+                    <span style="font-size: 1.1em">📄</span>
+                    View Resume
+                </a>
+                <a
+                    href="/resume/Mohsen_Abdolahi_Resume.pdf"
+                    download
+                    class="action-button"
+                    style="
+                        flex: 1 1 auto;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 0.5rem;
+                        background: var(--accent);
+                        color: #1a1a1a;
+                        padding: 0.6rem 1rem;
+                        border: 1px solid var(--accent);
+                        border-radius: 6px;
+                        text-decoration: none;
+                        font-weight: 600;
+                        font-size: 0.95rem;
+                        transition: all 0.2s ease;
+                    "
+                    onmouseover="this.style.opacity='0.9';"
+                    onmouseout="this.style.opacity='1';"
+                >
+                    <span style="font-size: 1.1em">⬇️</span>
+                    Download PDF
+                </a>
+                <a
+                    href="#contact"
+                    class="action-button"
+                    style="
+                        flex: 1 1 auto;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 0.5rem;
+                        background: #2a2a2a;
+                        color: #dcdcdc;
+                        padding: 0.6rem 1rem;
+                        border: 1px solid #444;
+                        border-radius: 6px;
+                        text-decoration: none;
+                        font-weight: 500;
+                        font-size: 0.95rem;
+                        transition: all 0.2s ease;
+                    "
+                    onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--accent)';"
+                    onmouseout="this.style.borderColor='#444'; this.style.color='#dcdcdc';"
+                >
+                    <span style="font-size: 1.1em">💬</span>
+                    Contact Me
+                </a>
+            </div>
         </div>
 
         <!-- Experience Section -->
@@ -487,22 +769,11 @@
 
                     <ul class="experience-highlights">
                         <li>
-                            <strong>Large-Scale System Management:</strong> Developed multiple projects for diverse
-                            business requirements within a single, generic C# .NET codebase, where a single code change
-                            could impact 100+ website and mobile application servers
+                            <strong>Large-Scale System Management:</strong> Developed C# .NET backend impacting 100+
+                            servers
                         </li>
-                        <li>
-                            <strong>API Integration Leadership:</strong> Worked closely with frontend and mobile teams,
-                            creating and maintaining Postman documentation for APIs and providing technical guidance
-                        </li>
-                        <li>
-                            <strong>Infrastructure Management:</strong> Designed comprehensive backend dashboard for
-                            server management, including server operations, monitoring systems, and administrative tools
-                        </li>
-                        <li>
-                            <strong>Third-Party Integration:</strong> Integrated backend systems with external asset
-                            management services to streamline resource handling and deployment
-                        </li>
+                        <li><strong>API Development:</strong> Created and documented APIs for frontend/mobile teams</li>
+                        <li><strong>Infrastructure:</strong> Built backend dashboards and monitoring systems</li>
                     </ul>
                 </div>
 
@@ -518,23 +789,14 @@
 
                     <ul class="experience-highlights">
                         <li>
-                            <strong>Namdaran Game Development:</strong> Complete game backend using Nakama with Golang -
-                            game logic, database layer, matchmaking, leaderboards, tournaments, clans, global chat, shop
-                            validation, and inventory systems
+                            <strong>Game Backend Development:</strong> Golang/Nakama for multiplayer systems, C# for
+                            quiz games
                         </li>
                         <li>
-                            <strong>Dataa Quiz Game:</strong> C# backend development including player systems,
-                            matchmaking, profiles, shop functionality, and admin tools for question management
+                            <strong>DevOps & Infrastructure:</strong> Linux servers, CI/CD pipelines, HAProxy, Grafana
+                            monitoring
                         </li>
-                        <li>
-                            <strong>Infrastructure & DevOps:</strong> Maintained Linux servers, implemented CI/CD
-                            pipelines, blue-green deployment with HAProxy, and comprehensive monitoring with Grafana,
-                            Loki, and Promtail
-                        </li>
-                        <li>
-                            <strong>DevLoop Social Panel:</strong> React application for player communication and
-                            moderation with notification systems and report management workflows
-                        </li>
+                        <li><strong>Frontend Development:</strong> React-based social moderation panel</li>
                     </ul>
                 </div>
 
@@ -550,17 +812,9 @@
 
                     <ul class="experience-highlights">
                         <li>
-                            <strong>Security Testing:</strong> Conducted comprehensive penetration testing on web
-                            applications using OWASP methodology
+                            <strong>Penetration Testing:</strong> OWASP methodology, web application security assessment
                         </li>
-                        <li>
-                            <strong>Competitive Security:</strong> Participated in Capture The Flag (CTF) competitions,
-                            solving various security challenges as part of a team
-                        </li>
-                        <li>
-                            <strong>Continuous Learning:</strong> Studied network security principles and gained
-                            hands-on experience with Linux systems
-                        </li>
+                        <li><strong>CTF Competitions:</strong> Team-based security challenges and problem solving</li>
                     </ul>
                 </div>
             </div>
@@ -568,63 +822,200 @@
 
         <!-- Skills Section -->
         <div class="section-card" id="skills">
-            <h2 class="section-title">Technical Skills</h2>
+            <h2 class="section-title">Skills & Expertise</h2>
 
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h4 class="skill-category-title">🎯 Expert In</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">C#</span>
-                        <span class="skill-tag">ASP.NET Core</span>
-                        <span class="skill-tag">Golang</span>
-                        <span class="skill-tag">MVC Architecture</span>
-                        <span class="skill-tag">REST APIs</span>
-                        <span class="skill-tag">SQL Server</span>
-                        <span class="skill-tag">PostgreSQL</span>
-                        <span class="skill-tag">Clean Architecture</span>
+            <div class="skills-container">
+                <!-- Technical Skills -->
+                <div class="skills-section">
+                    <h3 class="skills-section-title">
+                        <span>⚡</span>
+                        Technical Skills
+                    </h3>
+
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4 class="skill-category-title">🎯 Languages & Frameworks</h4>
+                            <div class="skill-items">
+                                <div class="skill-item">
+                                    <div class="skill-icon">🔷</div>
+                                    <div class="skill-content">
+                                        <div class="skill-name">C# & .NET</div>
+                                        <div class="skill-description">
+                                            ASP.NET Core, Entity Framework, advanced OOP
+                                        </div>
+                                        <div class="skill-level">Expert</div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-icon">🔶</div>
+                                    <div class="skill-content">
+                                        <div class="skill-name">Golang</div>
+                                        <div class="skill-description">
+                                            High-performance backend services, concurrency
+                                        </div>
+                                        <div class="skill-level">Expert</div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-icon">⚛️</div>
+                                    <div class="skill-content">
+                                        <div class="skill-name">React & TypeScript</div>
+                                        <div class="skill-description">
+                                            Modern frontend development, state management
+                                        </div>
+                                        <div class="skill-level">Proficient</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h4 class="skill-category-title">🗄️ Databases & Storage</h4>
+                            <div class="skill-items">
+                                <div class="skill-item">
+                                    <div class="skill-icon">🔵</div>
+                                    <div class="skill-content">
+                                        <div class="skill-name">SQL Server</div>
+                                        <div class="skill-description">
+                                            Complex queries, ORMs like Entity Framework, optimization
+                                        </div>
+                                        <div class="skill-level">Expert</div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-icon">🐘</div>
+                                    <div class="skill-content">
+                                        <div class="skill-name">PostgreSQL</div>
+                                        <div class="skill-description">
+                                            Advanced features, JSON support, performance tuning
+                                        </div>
+                                        <div class="skill-level">Expert</div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-icon">🔥</div>
+                                    <div class="skill-content">
+                                        <div class="skill-name">Redis</div>
+                                        <div class="skill-description">
+                                            Caching strategies, pub/sub, data structures
+                                        </div>
+                                        <div class="skill-level">Proficient</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h4 class="skill-category-title">🚀 DevOps & Infrastructure</h4>
+                            <div class="skill-items">
+                                <div class="skill-item">
+                                    <div class="skill-icon">🐳</div>
+                                    <div class="skill-content">
+                                        <div class="skill-name">Docker</div>
+                                        <div class="skill-description">
+                                            Containerization, multi-stage builds, orchestration
+                                        </div>
+                                        <div class="skill-level">Proficient</div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-icon">🌐</div>
+                                    <div class="skill-content">
+                                        <div class="skill-name">Nginx & HAProxy</div>
+                                        <div class="skill-description">
+                                            Load balancing, reverse proxy, SSL termination
+                                        </div>
+                                        <div class="skill-level">Proficient</div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-icon">⚙️</div>
+                                    <div class="skill-content">
+                                        <div class="skill-name">CI/CD</div>
+                                        <div class="skill-description">
+                                            GitHub Actions, automated testing, deployment
+                                        </div>
+                                        <div class="skill-level">Proficient</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="skill-category">
-                    <h4 class="skill-category-title">⚡ Work With</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Docker</span>
-                        <span class="skill-tag">Nginx</span>
-                        <span class="skill-tag">HAProxy</span>
-                        <span class="skill-tag">GitHub Actions</span>
-                        <span class="skill-tag">Grafana</span>
-                        <span class="skill-tag">Redis</span>
-                        <span class="skill-tag">DDD</span>
-                        <span class="skill-tag">Microservices</span>
-                        <span class="skill-tag">OWASP</span>
-                    </div>
-                </div>
+                <!-- Soft Skills -->
+                <div class="skills-section">
+                    <h3 class="skills-section-title">
+                        <span>🤝</span>
+                        Soft Skills
+                    </h3>
 
-                <div class="skill-category">
-                    <h4 class="skill-category-title">📚 Familiar With</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">MongoDB</span>
-                        <span class="skill-tag">RabbitMQ</span>
-                        <span class="skill-tag">Kafka</span>
-                        <span class="skill-tag">Elasticsearch</span>
-                        <span class="skill-tag">Kubernetes</span>
-                        <span class="skill-tag">TypeScript</span>
-                        <span class="skill-tag">React</span>
-                        <span class="skill-tag"> Blazor</span>
-                        <span class="skill-tag">Event-Driven Architecture</span>
-                        <span class="skill-tag">TDD</span>
-                    </div>
-                </div>
+                    <div class="soft-skills-grid">
+                        <div class="soft-skill-item">
+                            <div class="soft-skill-icon">💡</div>
+                            <div class="soft-skill-content">
+                                <div class="soft-skill-name">Problem Solving</div>
+                                <div class="soft-skill-description">
+                                    Breaking down complex technical challenges into manageable solutions with systematic
+                                    thinking and creativity.
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="skill-category">
-                    <h4 class="skill-category-title">🤝 Soft Skills</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Growth Mindset</span>
-                        <span class="skill-tag">Adaptability</span>
-                        <span class="skill-tag">Teamwork</span>
-                        <span class="skill-tag">Agile/Scrum</span>
-                        <span class="skill-tag">Problem-Solving</span>
-                        <span class="skill-tag">Communication</span>
+                        <div class="soft-skill-item">
+                            <div class="soft-skill-icon">👥</div>
+                            <div class="soft-skill-content">
+                                <div class="soft-skill-name">Team Collaboration</div>
+                                <div class="soft-skill-description">
+                                    Working effectively in cross-functional teams, mentoring junior developers, and
+                                    fostering knowledge sharing.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="soft-skill-item">
+                            <div class="soft-skill-icon">🎯</div>
+                            <div class="soft-skill-content">
+                                <div class="soft-skill-name">Adaptability</div>
+                                <div class="soft-skill-description">
+                                    Quickly learning new technologies and adapting to changing project requirements and
+                                    business needs.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="soft-skill-item">
+                            <div class="soft-skill-icon">💬</div>
+                            <div class="soft-skill-content">
+                                <div class="soft-skill-name">Communication</div>
+                                <div class="soft-skill-description">
+                                    Effectively communicating technical concepts to stakeholders and maintaining clear
+                                    project documentation.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="soft-skill-item">
+                            <div class="soft-skill-icon">🚀</div>
+                            <div class="soft-skill-content">
+                                <div class="soft-skill-name">Growth Mindset</div>
+                                <div class="soft-skill-description">
+                                    Continuously learning and improving, embracing challenges as opportunities for
+                                    professional development.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="soft-skill-item">
+                            <div class="soft-skill-icon">⚡</div>
+                            <div class="soft-skill-content">
+                                <div class="soft-skill-name">Agile Methodology</div>
+                                <div class="soft-skill-description">
+                                    Experience with Scrum practices, sprint planning, and iterative development
+                                    approaches.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -677,17 +1068,102 @@
         <!-- Contact -->
         <div class="section-card contact-card" id="contact">
             <h2 class="section-title">Let's Connect</h2>
-            <p>
-                I'm always interested in discussing new opportunities, collaborating on challenging projects, or sharing
-                insights about backend development and system architecture.
-            </p>
+            <div style="text-align: center; margin-bottom: 2.5rem">
+                <p style="font-size: 1.1rem; color: rgba(169, 169, 179, 0.95); margin-bottom: 1rem">
+                    Ready to collaborate on your next project?
+                </p>
+                <p style="font-size: 1rem; color: rgba(169, 169, 179, 0.8)">
+                    I'm always interested in discussing new opportunities, challenging projects, or sharing insights
+                    about backend development and system architecture.
+                </p>
+            </div>
 
-            <div class="contact-grid">
-                <a href="mailto:mohsen12abdolahi@gmail.com" class="contact-link"> 📧 Email </a>
-                <a href="https://linkedin.com/in/mohsen-abdolahi" target="_blank" class="contact-link"> 💼 LinkedIn </a>
-                <a href="https://github.com/MsN-12" target="_blank" class="contact-link"> 🐙 GitHub </a>
-                <a href="https://mohsenabdolahi.liara.run" target="_blank" class="contact-link"> 🌐 Portfolio </a>
-                <a href="tel:+989390433026" class="contact-link"> 📱 Phone </a>
+            <div
+                style="
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 1.5rem;
+                    margin-bottom: 2rem;
+                "
+            >
+                <div
+                    style="
+                        background: #1a1a1a;
+                        padding: 2rem;
+                        border-radius: 8px;
+                        border: 1px solid rgba(255, 168, 107, 0.3);
+                        text-align: center;
+                    "
+                >
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem">📧</div>
+                    <h3 style="color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem">Email Me</h3>
+                    <p style="color: rgba(169, 169, 179, 0.8); margin-bottom: 1rem; font-size: 0.9rem">
+                        Best for project inquiries
+                    </p>
+                    <a
+                        href="mailto:mohsen12abdolahi@gmail.com"
+                        style="color: var(--accent); font-weight: 600; text-decoration: none"
+                        >mohsen12abdolahi@gmail.com</a
+                    >
+                </div>
+
+                <div
+                    style="
+                        background: #1a1a1a;
+                        padding: 2rem;
+                        border-radius: 8px;
+                        border: 1px solid rgba(255, 168, 107, 0.3);
+                        text-align: center;
+                    "
+                >
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem">💼</div>
+                    <h3 style="color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem">LinkedIn</h3>
+                    <p style="color: rgba(169, 169, 179, 0.8); margin-bottom: 1rem; font-size: 0.9rem">
+                        Professional networking
+                    </p>
+                    <a
+                        href="https://linkedin.com/in/mohsen-abdolahi"
+                        target="_blank"
+                        style="color: var(--accent); font-weight: 600; text-decoration: none"
+                        >Connect with me</a
+                    >
+                </div>
+
+                <div
+                    style="
+                        background: #1a1a1a;
+                        padding: 2rem;
+                        border-radius: 8px;
+                        border: 1px solid rgba(255, 168, 107, 0.3);
+                        text-align: center;
+                    "
+                >
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem">🐙</div>
+                    <h3 style="color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem">GitHub</h3>
+                    <p style="color: rgba(169, 169, 179, 0.8); margin-bottom: 1rem; font-size: 0.9rem">
+                        Check out my code
+                    </p>
+                    <a
+                        href="https://github.com/MsN-12"
+                        target="_blank"
+                        style="color: var(--accent); font-weight: 600; text-decoration: none"
+                        >View repositories</a
+                    >
+                </div>
+            </div>
+
+            <div style="text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255, 168, 107, 0.2)">
+                <p style="color: rgba(169, 169, 179, 0.7); font-size: 0.9rem">
+                    📍 Iran, Fars • 📱
+                    <a href="tel:+989390433026" style="color: var(--accent); text-decoration: none">(+98) 9390433026</a>
+                    • 🌐
+                    <a
+                        href="https://mohsenabdolahi.liara.run"
+                        target="_blank"
+                        style="color: var(--accent); text-decoration: none"
+                        >mohsenabdolahi.liara.run</a
+                    >
+                </p>
             </div>
         </div>
 
@@ -703,5 +1179,36 @@
             </div>
         </div>
     </div>
+
+    <!-- Floating Quick Contact Button -->
+    <a href="#contact" class="quick-contact" title="Quick Contact"> 💬 </a>
 </article>
+
+<script>
+    // Smooth scroll for navigation links
+    document.addEventListener("DOMContentLoaded", function () {
+        // Add staggered animation to section cards
+        const cards = document.querySelectorAll(".section-card");
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                    }
+                });
+            },
+            { threshold: 0.1 },
+        );
+
+        cards.forEach((card) => {
+            observer.observe(card);
+        });
+    });
+</script>
 {{ end }}

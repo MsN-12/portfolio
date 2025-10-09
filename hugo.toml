@@ -1,8 +1,10 @@
-baseURL = "https://mohsenabdolahi.github.io/"
+
+baseURL = "https://msn-12.github.io/portfolio/"   # ✅ must match your Pages URL
 languageCode = "en-us"
 title = "Mohsen Abdolahi"
 theme = "terminal"
 paginate = 5
+enableGitInfo = true   # ✅ already enabled, good for "last updated" dates
 
 # Required for Chroma and the custom syntax highlighting
 [markup]
@@ -15,55 +17,40 @@ paginate = 5
 
 [params]
   # dir name of your main content (default is `content/posts`)
-  # the list of set content will show up on your index page (baseurl)
   contentTypeName = "posts"
 
-  # if you set this to 0, only submenu trigger will be visible
+  # how many menu items to show in header
   showMenuItems = 4
 
-  # show selector to switch language
+  # layout options
   showLanguageSelector = false
-
-  # set theme to full screen width
   fullWidthTheme = false
-
-  # center theme with default width
   centerTheme = true
 
-  # if your resource directory contains an image called `cover.(jpg|png|webp)`,
-  # then the file will be used as a cover automatically
+  # images & content
   autoCover = true
-
-  # set post to show the last updated
   showLastUpdated = true
-
-  # whether to show a page's estimated reading time
   readingTime = true
-
-  # whether to show a table of contents
   Toc = true
-
-  # set title for the table of contents
   TocTitle = "Table of Contents"
 
-  # Custom color scheme - change yellow to orange
+  # custom accent color
   themeColor = "orange"
 
 [params.twitter]
-  # set Twitter handles for Twitter cards
   creator = ""
   site = ""
 
 [languages]
   [languages.en]
     languageName = "English"
-    title = ""
+    title = "Mohsen Abdolahi"
 
     [languages.en.params]
       subtitle = "Software Engineer - Backend Developer"
       owner = "Mohsen Abdolahi"
       keywords = "software engineer, backend developer, c#, golang, .net, web development, programming, game development"
-      copyright = "Mohsen Abdolahi"
+      copyright = "© 2025 Mohsen Abdolahi"
       menuMore = "Show more"
       readMore = "Read more"
       readOtherPosts = "Read other posts"
@@ -78,7 +65,7 @@ paginate = 5
         logoText = "mohsen.dev"
         logoHomeLink = "/"
 
-      # Single page navigation
+      # Menu items
       [languages.en.menu]
         [[languages.en.menu.main]]
           identifier = "about"
@@ -104,10 +91,7 @@ paginate = 5
   email = "mohsen12abdolahi@gmail.com"
   phone = "+98 9390433026"
   location = "Iran, Fars"
-  website = "mohsenabdolahi.liara.run"
-
-# Enable Git info for last modified dates
-enableGitInfo = true
+  website = "https://mohsenabdolahi.liara.run"
 
 # RSS configuration
 [outputs]

@@ -61,7 +61,7 @@ enableGitInfo = true   # ✅ already enabled, good for "last updated" dates
       words = "words"
 
       [languages.en.params.logo]
-        logoText = "mohsen.dev"
+        logoText = "~ Mohsen Abdolahi ~"
         logoHomeLink = "/"
 
       # Menu items

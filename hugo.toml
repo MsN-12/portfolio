@@ -1,4 +1,3 @@
-
 baseURL = "https://msn-12.github.io/portfolio/"   # ✅ must match your Pages URL
 languageCode = "en-us"
 title = "Mohsen Abdolahi"
@@ -44,7 +43,7 @@ enableGitInfo = true   # ✅ already enabled, good for "last updated" dates
 [languages]
   [languages.en]
     languageName = "English"
-    title = "Mohsen Abdolahi"
+    title = "" # this should not be set
 
     [languages.en.params]
       subtitle = "Software Engineer - Backend Developer"
@@ -91,7 +90,6 @@ enableGitInfo = true   # ✅ already enabled, good for "last updated" dates
   email = "mohsen12abdolahi@gmail.com"
   phone = "+98 9390433026"
   location = "Iran, Fars"
-  website = "https://mohsenabdolahi.liara.run"
 
 # RSS configuration
 [outputs]

@@ -1,16 +1,17 @@
 <style>
-    /* Terminal Splash Screen - Matching Terminal Theme */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
     #terminal-splash {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100vh;
-        background: var(--background, #1a1a1a);
-        color: var(--color, #a9a9b3);
-        font-family:
-            "Fira Code", "SF Mono", "Monaco", "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", "Lucida Console",
-            Monaco, monospace;
+        background: linear-gradient(135deg, #1a170f 0%, #2a2217 50%, #3a2e1f 100%);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -21,6 +22,8 @@
             visibility 0.8s ease-out;
         opacity: 1;
         visibility: visible;
+        overflow: hidden;
+        font-family: "Fira Code", "SF Mono", "Monaco", "Inconsolata", monospace;
     }
 
     #terminal-splash.hidden {
@@ -28,102 +31,453 @@
         visibility: hidden;
     }
 
+    .cubes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        perspective: 2000px;
+    }
+
+    .cube {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        transform-style: preserve-3d;
+        animation:
+            rotateCube 20s linear infinite,
+            floatCube 15s ease-in-out infinite;
+        opacity: 0.4;
+    }
+
+    .face {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border: 1px solid rgba(238, 195, 94, 0.15);
+        background: rgba(238, 195, 94, 0.03);
+    }
+
+    .front {
+        transform: translateZ(30px);
+    }
+    .back {
+        transform: translateZ(-30px) rotateY(180deg);
+    }
+    .left {
+        transform: translateX(-30px) rotateY(-90deg);
+    }
+    .right {
+        transform: translateX(30px) rotateY(90deg);
+    }
+    .top {
+        transform: translateY(-30px) rotateX(90deg);
+    }
+    .bottom {
+        transform: translateY(30px) rotateX(-90deg);
+    }
+
+    @keyframes rotateCube {
+        0% {
+            transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        }
+        100% {
+            transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+        }
+    }
+
+    @keyframes floatCube {
+        0%,
+        100% {
+            transform: translateZ(0) translateY(0);
+            opacity: 0.4;
+        }
+        50% {
+            transform: translateZ(50px) translateY(-50px);
+            opacity: 0.6;
+        }
+    }
+
+    /* Softer orbs with theme colors */
+    .orb {
+        position: absolute;
+        border-radius: 25%;
+        filter: blur(90px);
+        opacity: 0.25;
+        animation: cubeFloat 22s ease-in-out infinite;
+    }
+
+    .orb-1 {
+        width: 420px;
+        height: 420px;
+        background: linear-gradient(45deg, rgba(238, 195, 94, 0.3) 0%, transparent 70%);
+        top: -160px;
+        right: -110px;
+        animation-duration: 24s;
+    }
+
+    .orb-2 {
+        width: 360px;
+        height: 360px;
+        background: linear-gradient(135deg, rgba(236, 234, 229, 0.2) 0%, transparent 70%);
+        bottom: -130px;
+        left: -90px;
+        animation-duration: 20s;
+        animation-delay: -4s;
+    }
+
+    .orb-3 {
+        width: 320px;
+        height: 320px;
+        background: linear-gradient(90deg, rgba(238, 195, 94, 0.25) 0%, transparent 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-duration: 28s;
+        animation-delay: -8s;
+    }
+
+    @keyframes cubeFloat {
+        0%,
+        100% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+            transform: translate(30px, -30px) rotate(90deg);
+        }
+        50% {
+            transform: translate(-20px, -60px) rotate(180deg);
+        }
+        75% {
+            transform: translate(-40px, -20px) rotate(270deg);
+        }
+    }
+
+    /* Canvas for minimal particles */
+    #particle-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+
+    /* Terminal window */
     .terminal-window {
         background: #1e1e1e;
-        border: 1px solid var(--accent, #ffa86b);
-        border-radius: 6px;
+        border: 1px solid #eec35e;
+        border-radius: 8px;
         width: 90%;
-        max-width: 700px;
-        box-shadow: 0 8px 32px rgba(255, 168, 107, 0.15);
+        max-width: 750px;
+        box-shadow: 0 8px 32px rgba(238, 195, 94, 0.15);
         overflow: hidden;
+        position: relative;
+        transition: transform 0.2s ease;
+    }
+
+    .terminal-window:hover {
+        transform: scale(1.01);
     }
 
     .terminal-header {
-        background: rgba(0, 0, 0, 0.1);
+        background: rgba(0, 0, 0, 0.25);
         padding: 12px 16px;
         display: flex;
         align-items: center;
         gap: 8px;
-        border-bottom: 1px solid rgba(255, 168, 107, 0.2);
+        border-bottom: 1px solid rgba(238, 195, 94, 0.2);
     }
 
     .terminal-dot {
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        opacity: 0.7;
+        opacity: 0.8;
+        transition: transform 0.2s ease;
+    }
+
+    .terminal-dot:hover {
+        transform: scale(1.2);
     }
 
     .dot-red {
         background: #ff5f56;
-        border: 1px solid #e0443e;
     }
     .dot-yellow {
         background: #ffbd2e;
-        border: 1px solid #dea123;
     }
     .dot-green {
         background: #27c93f;
-        border: 1px solid #13a10e;
     }
 
     .terminal-title {
-        color: var(--accent, #ffa86b);
+        color: #eec35e;
         font-size: 13px;
         margin-left: 16px;
         font-weight: 500;
+        position: relative;
+    }
+
+    .terminal-title::before {
+        content: attr(data-text);
+        position: absolute;
+        left: 16px;
+        color: rgba(238, 195, 94, 0.2);
+        animation: glitch 4s infinite;
+        clip-path: inset(0 0 50% 0);
+    }
+
+    @keyframes glitch {
+        0%,
+        100% {
+            transform: translate(0, 0);
+        }
+        2% {
+            transform: translate(2px, -2px);
+        }
+        4% {
+            transform: translate(-2px, 2px);
+        }
     }
 
     .terminal-body {
-        padding: 40px 30px;
+        padding: 45px 35px;
         background: #1e1e1e;
-        min-height: 200px;
+        min-height: 340px;
+        position: relative;
     }
 
-    .terminal-prompt {
-        color: var(--accent, #ffa86b);
-        margin-bottom: 24px;
-        font-size: 16px;
+    .terminal-body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(transparent, rgba(238, 195, 94, 0.01) 50%, transparent);
+        background-size: 100% 4px;
+        animation: scanline 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanline {
+        0% {
+            transform: translateY(-100%);
+        }
+        100% {
+            transform: translateY(100%);
+        }
+    }
+
+    .compile-line {
         display: flex;
         align-items: center;
-        gap: 8px;
+        margin-bottom: 12px;
+        opacity: 0;
+        transform: translateX(-20px);
+        animation: slideIn 0.4s ease-out forwards;
+        font-size: 14px;
     }
 
-    .terminal-prompt::before {
-        content: "❯";
-        color: var(--accent, #ffa86b);
+    @keyframes slideIn {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .compile-icon {
+        color: #eec35e;
+        margin-right: 10px;
+        width: 18px;
+        display: inline-block;
+    }
+
+    .compile-text {
+        color: #eceae5;
+    }
+
+    .compile-status {
+        margin-left: auto;
+        color: #27c93f;
+        font-size: 12px;
+    }
+
+    .status-loading {
+        color: #ffbd2e;
+    }
+
+    .identity-section {
+        margin-top: 35px;
+        padding-top: 25px;
+        border-top: 1px solid rgba(238, 195, 94, 0.2);
+    }
+
+    .whoami-prompt {
+        color: #eec35e;
+        font-size: 15px;
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeIn 0.5s ease-in forwards;
+    }
+
+    .whoami-prompt::before {
+        content: "❯ ";
         font-weight: bold;
     }
 
-    .terminal-command {
-        color: var(--color, #a9a9b3);
-        font-size: 28px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        margin-bottom: 32px;
-        min-height: 40px;
-        line-height: 1.2;
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
     }
 
-    .terminal-cursor {
+    .name-output {
+        margin-left: 22px;
+        margin-bottom: 25px;
+    }
+
+    .typed-name {
+        color: #eceae5;
+        font-size: 38px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        position: relative;
+    }
+
+    /* Enhanced glitch effects for typing */
+    .typed-name.glitch {
+        animation: nameGlitch 0.3s ease-in-out;
+    }
+
+    @keyframes nameGlitch {
+        0%,
+        100% {
+            transform: translate(0);
+        }
+        10% {
+            transform: translate(-1px, 1px);
+        }
+        20% {
+            transform: translate(1px, -1px);
+        }
+        30% {
+            transform: translate(-1px, 0px);
+        }
+        40% {
+            transform: translate(1px, 1px);
+        }
+        50% {
+            transform: translate(-1px, -1px);
+        }
+        60% {
+            transform: translate(1px, 0px);
+        }
+        70% {
+            transform: translate(-1px, 1px);
+        }
+        80% {
+            transform: translate(1px, -1px);
+        }
+        90% {
+            transform: translate(-1px, 0px);
+        }
+    }
+
+    .typed-name.glitch::before {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        color: #f0c080; /* Muted orange */
+        opacity: 0.4;
+        animation: glitchBefore 0.3s ease-in-out;
+        clip-path: inset(0 0 50% 0);
+    }
+
+    .typed-name.glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        color: #e0b070; /* Muted yellow */
+        opacity: 0.4;
+        animation: glitchAfter 0.3s ease-in-out;
+        clip-path: inset(50% 0 0 0);
+    }
+
+    @keyframes glitchBefore {
+        0% {
+            transform: translate(0);
+            clip-path: inset(0 0 50% 0);
+        }
+        20% {
+            transform: translate(-6px, 0);
+            clip-path: inset(10% 0 40% 0);
+        }
+        40% {
+            transform: translate(-4px, 0);
+            clip-path: inset(20% 0 30% 0);
+        }
+        60% {
+            transform: translate(-8px, 0);
+            clip-path: inset(5% 0 45% 0);
+        }
+        80% {
+            transform: translate(-2px, 0);
+            clip-path: inset(15% 0 35% 0);
+        }
+        100% {
+            transform: translate(0);
+            clip-path: inset(0 0 50% 0);
+        }
+    }
+
+    @keyframes glitchAfter {
+        0% {
+            transform: translate(0);
+            clip-path: inset(50% 0 0 0);
+        }
+        20% {
+            transform: translate(6px, 0);
+            clip-path: inset(60% 0 0 0);
+        }
+        40% {
+            transform: translate(4px, 0);
+            clip-path: inset(70% 0 0 0);
+        }
+        60% {
+            transform: translate(8px, 0);
+            clip-path: inset(55% 0 0 0);
+        }
+        80% {
+            transform: translate(2px, 0);
+            clip-path: inset(65% 0 0 0);
+        }
+        100% {
+            transform: translate(0);
+            clip-path: inset(50% 0 0 0);
+        }
+    }
+
+    .cursor {
         display: inline-block;
-        background: var(--accent, #ffa86b);
-        color: var(--background, #292a2d);
-        width: 2px;
-        height: 1.2em;
-        animation: cursor-blink 1s infinite;
-        margin-left: 2px;
+        width: 3px;
+        height: 1em;
+        background: #eec35e;
+        margin-left: 4px;
+        animation: blink 0.9s infinite;
         vertical-align: text-bottom;
     }
 
-    .terminal-cursor.heartbeat {
-        animation: heartbeat 0.8s infinite;
-        background: transparent;
-        color: #ff6b5b;
-        width: auto;
-    }
-
-    @keyframes cursor-blink {
+    @keyframes blink {
         0%,
         50% {
             opacity: 1;
@@ -134,8 +488,17 @@
         }
     }
 
+    .cursor.heart {
+        background: transparent;
+        animation: heartbeat 0.8s infinite;
+        color: #ff6b5b;
+        width: auto;
+        font-size: 1em;
+    }
+
     @keyframes heartbeat {
-        0% {
+        0%,
+        100% {
             transform: scale(1);
         }
         25% {
@@ -147,126 +510,171 @@
         75% {
             transform: scale(1.2);
         }
-        100% {
-            transform: scale(1);
-        }
     }
 
-    .terminal-info {
-        color: rgba(169, 169, 179, 0.8);
+    .role-info {
+        margin-left: 22px;
+        color: #eceae5;
         font-size: 15px;
-        line-height: 1.6;
-        margin-top: 24px;
+        line-height: 1.8;
         opacity: 0;
         transition: opacity 0.5s ease-in;
     }
 
-    .terminal-loading {
-        color: var(--accent, #ffa86b);
-        font-size: 14px;
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
+    .role-info.visible {
+        opacity: 1;
     }
 
-    .loading-spinner {
-        width: 16px;
-        height: 16px;
-        border: 2px solid rgba(255, 168, 107, 0.3);
-        border-top: 2px solid var(--accent, #ffa86b);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
+    .role-label {
+        color: #eec35e;
+        font-weight: 600;
     }
 
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
+    .success-message {
+        margin-top: 25px;
+        padding: 12px 18px;
+        background: rgba(39, 201, 63, 0.1);
+        border-left: 3px solid #27c93f;
+        color: #27c93f;
+        font-size: 13px;
+        opacity: 0;
+        transition: opacity 0.5s ease-in;
+        border-radius: 2px;
     }
 
-    /* Skip instruction */
+    .success-message.visible {
+        opacity: 1;
+    }
+
+    .success-icon {
+        margin-right: 8px;
+    }
+
     .skip-instruction {
         position: absolute;
         bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: rgba(169, 169, 179, 0.6);
+        color: rgba(236, 234, 229, 0.4);
         font-size: 12px;
         opacity: 0;
-        animation: fade-in-up 0.5s ease-in 2s forwards;
+        animation: fadeInUp 0.5s ease-in 1.5s forwards;
+        cursor: pointer;
+        transition: color 0.3s ease;
     }
 
-    @keyframes fade-in-up {
-        from {
-            opacity: 0;
-            transform: translateX(-50%) translateY(10px);
-        }
+    .skip-instruction:hover {
+        color: #eec35e;
+    }
+
+    @keyframes fadeInUp {
         to {
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
         }
     }
 
-    /* Mobile responsiveness */
     @media (max-width: 768px) {
         .terminal-window {
             width: 95%;
-            margin: 20px;
+            max-width: 600px;
         }
         .terminal-body {
-            padding: 30px 20px;
+            padding: 40px 25px;
+            min-height: 300px;
         }
-        .terminal-command {
-            font-size: 24px;
+        .typed-name {
+            font-size: 32px;
         }
-        .terminal-prompt {
-            font-size: 14px;
+        .compile-line {
+            font-size: 13px;
+        }
+        .orb-1,
+        .orb-2,
+        .orb-3 {
+            transform: scale(0.8);
+        }
+        .cube {
+            width: 40px;
+            height: 40px;
+        }
+        .face {
+            width: 40px;
+            height: 40px;
+        }
+        .front {
+            transform: translateZ(20px);
+        }
+        .back {
+            transform: translateZ(-20px) rotateY(180deg);
+        }
+        .left {
+            transform: translateX(-20px) rotateY(-90deg);
+        }
+        .right {
+            transform: translateX(20px) rotateY(90deg);
+        }
+        .top {
+            transform: translateY(-20px) rotateX(90deg);
+        }
+        .bottom {
+            transform: translateY(20px) rotateX(-90deg);
         }
     }
 
     @media (max-width: 480px) {
-        .terminal-command {
-            font-size: 20px;
+        .terminal-window {
+            width: 98%;
+        }
+        .typed-name {
+            font-size: 28px;
         }
         .terminal-body {
-            padding: 25px 15px;
+            padding: 35px 20px;
+            min-height: 280px;
+        }
+        .orb-1,
+        .orb-2,
+        .orb-3 {
+            transform: scale(0.6);
         }
     }
 </style>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Create splash screen HTML with Terminal theme styling
+        // Create splash screen HTML
         var splashHTML = `
         <div id="terminal-splash">
+            <div class="cubes"></div>
+            <canvas id="particle-canvas"></canvas>
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
             <div class="terminal-window">
                 <div class="terminal-header">
                     <div class="terminal-dot dot-red"></div>
                     <div class="terminal-dot dot-yellow"></div>
                     <div class="terminal-dot dot-green"></div>
-                    <div class="terminal-title">mohsen@portfolio:~</div>
+                    <div class="terminal-title" data-text="mohsen@portfolio:~">mohsen@portfolio:~</div>
                 </div>
                 <div class="terminal-body">
-                    <div class="terminal-prompt">whoami</div>
-                    <div class="terminal-command" id="typed-name">
-                        <span class="terminal-cursor"></span>
-                    </div>
-                    <div class="terminal-info">
-                        Backend Developer | Software Engineer<br>
-                        C# • Golang • System Architecture
-                    </div>
-                    <div class="terminal-loading">
-                        <div class="loading-spinner"></div>
-                        Initializing portfolio...
+                    <div id="compile-steps"></div>
+                    <div class="identity-section" id="identity-section" style="opacity: 0;">
+                        <div class="whoami-prompt">whoami</div>
+                        <div class="name-output">
+                            <span class="typed-name" id="typed-name" data-text=""></span>
+                        </div>
+                        <div class="role-info" id="role-info">
+                            <span class="role-label">Role:</span> Backend Developer | Software Engineer<br>
+                            <span class="role-label">Stack:</span> C# • Golang • System Architecture
+                        </div>
+                        <div class="success-message" id="success-message">
+                            <span class="success-icon">✓</span>
+                            Portfolio ready to view
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="skip-instruction">
-                Press any key or click to skip
+            <div class="skip-instruction" id="skip-instruction">
+                Click anywhere to skip
             </div>
         </div>
         `;
@@ -275,68 +683,229 @@
         document.body.insertAdjacentHTML("afterbegin", splashHTML);
 
         var splash = document.getElementById("terminal-splash");
+
+        // Create cubes
+        var cubesContainer = splash.querySelector(".cubes");
+        for (var i = 0; i < 20; i++) {
+            var cube = document.createElement("div");
+            cube.className = "cube";
+            cube.style.left = Math.random() * 100 + "%";
+            cube.style.top = Math.random() * 100 + "%";
+            cube.style.transform = "scale(" + (Math.random() * 0.5 + 0.5) + ")";
+            cube.style.animationDuration = Math.random() * 10 + 10 + "s";
+            cube.style.animationDelay = Math.random() * 5 + "s";
+            cubesContainer.appendChild(cube);
+
+            var faces = ["front", "back", "left", "right", "top", "bottom"];
+            faces.forEach(function (face) {
+                var f = document.createElement("div");
+                f.className = "face " + face;
+                cube.appendChild(f);
+            });
+        }
+
+        // Particle system with theme colors
+        var canvas = document.getElementById("particle-canvas");
+        var ctx = canvas.getContext("2d");
+        var particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createParticle() {
+            return {
+                x: Math.random() * canvas.width,
+                y: canvas.height + 10,
+                size: Math.random() * 1.5 + 0.5,
+                speedX: (Math.random() - 0.5) * 1.5,
+                speedY: -(Math.random() * 2 + 1.5),
+                opacity: Math.random() * 0.2 + 0.05,
+            };
+        }
+
+        function initParticles() {
+            particles = [];
+            for (var i = 0; i < 25; i++) {
+                particles.push(createParticle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(function (p, i) {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                p.opacity -= 0.001;
+                if (p.opacity <= 0 || p.y < -10) {
+                    particles[i] = createParticle();
+                }
+                ctx.beginPath();
+                ctx.moveTo(p.x - p.size, p.y - p.size);
+                ctx.lineTo(p.x + p.size, p.y - p.size);
+                ctx.lineTo(p.x, p.y + p.size);
+                ctx.closePath();
+                ctx.fillStyle = "rgba(238, 195, 94, " + p.opacity + ")";
+                ctx.strokeStyle = "rgba(236, 234, 229, " + p.opacity * 0.3 + ")";
+                ctx.lineWidth = 0.5;
+                ctx.fill();
+                ctx.stroke();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        resizeCanvas();
+        initParticles();
+        animateParticles();
+        window.addEventListener("resize", resizeCanvas);
+
+        // Terminal animation logic
+        var compileSteps = document.getElementById("compile-steps");
+        var identitySection = document.getElementById("identity-section");
         var typedName = document.getElementById("typed-name");
+        var roleInfo = document.getElementById("role-info");
+        var successMessage = document.getElementById("success-message");
+        var skipInstruction = document.getElementById("skip-instruction");
 
-        if (!splash || !typedName) return;
+        var steps = [
+            { icon: "⚙", text: "Initializing portfolio...", status: "[ OK ]" },
+            { icon: "📦", text: "Loading components...", status: "[ OK ]" },
+            { icon: "🔧", text: "Building profile...", status: "[ OK ]" },
+        ];
 
+        var stepIndex = 0;
         var fullName = "Mohsen Abdolahi";
-        var currentIndex = 0;
+        var charIndex = 0;
+        var isBackspacing = false;
 
-        function typeWriter() {
-            if (currentIndex < fullName.length) {
-                var currentText = fullName.substring(0, currentIndex + 1);
-                typedName.innerHTML = currentText + '<span class="terminal-cursor"></span>';
-                currentIndex++;
-                setTimeout(typeWriter, Math.random() * 80 + 60);
+        function showCompileSteps() {
+            if (stepIndex < steps.length) {
+                var step = steps[stepIndex];
+                var line = document.createElement("div");
+                line.className = "compile-line";
+                line.style.animationDelay = stepIndex * 0.1 + "s";
+                line.innerHTML =
+                    '<span class="compile-icon">' +
+                    step.icon +
+                    "</span>" +
+                    '<span class="compile-text">' +
+                    step.text +
+                    "</span>" +
+                    '<span class="compile-status status-loading">...</span>';
+                compileSteps.appendChild(line);
+
+                setTimeout(function () {
+                    var statusEl = line.querySelector(".compile-status");
+                    statusEl.textContent = step.status;
+                    statusEl.classList.remove("status-loading");
+                }, 300);
+
+                stepIndex++;
+                setTimeout(showCompileSteps, 400);
             } else {
-                setTimeout(startHeartbeat, 600);
+                setTimeout(showIdentitySection, 200);
             }
         }
 
-        function startHeartbeat() {
-            typedName.innerHTML = fullName + '<span class="terminal-cursor heartbeat">♥</span>';
-
-            // Show info text
-            var infoDiv = splash.querySelector(".terminal-info");
-            if (infoDiv) {
-                infoDiv.style.opacity = "1";
-            }
-
-            setTimeout(fadeOutSplash, 1800);
+        function showIdentitySection() {
+            identitySection.style.transition = "opacity 0.5s ease-in";
+            identitySection.style.opacity = "1";
+            setTimeout(typeName, 600);
         }
 
-        function fadeOutSplash() {
+        function triggerGlitch() {
+            typedName.classList.add("glitch");
+            typedName.setAttribute("data-text", typedName.textContent || "");
+            setTimeout(function () {
+                typedName.classList.remove("glitch");
+            }, 500);
+        }
+
+        let backspaceTriggered = false;
+        const BACKSPACE_START_INDEX = 10; // The character index to start backspacing from (e.g., 7 for "Markazi")
+        const BACKSPACE_COUNT = 3; // The number of characters to backspace
+
+        function typeName() {
+            if (charIndex < fullName.length && !isBackspacing) {
+                // Glitch at specific character indices, plays as an overlay without disrupting typing flow
+                if (charIndex === 7 || charIndex === 10) {
+                    triggerGlitch();
+                }
+
+                // Targeted backspace logic
+                if (!backspaceTriggered && charIndex === BACKSPACE_START_INDEX) {
+                    isBackspacing = true;
+                    backspaceTriggered = true;
+                    let currentBackspaceCount = 0;
+
+                    const performBackspace = () => {
+                        if (currentBackspaceCount < BACKSPACE_COUNT) {
+                            typedName.innerHTML = fullName.substring(0, charIndex - 1) + '<span class="cursor"></span>';
+                            charIndex--;
+                            currentBackspaceCount++;
+                            setTimeout(performBackspace, 100); // Speed of each backspace animation step
+                        } else {
+                            isBackspacing = false;
+                            setTimeout(typeName, 300); // Delay before continuing normal typing after backspace sequence
+                        }
+                    };
+                    setTimeout(performBackspace, 200); // Initial delay before starting the backspace sequence
+                    return;
+                }
+
+                var currentText = fullName.substring(0, charIndex + 1);
+                typedName.innerHTML = currentText + '<span class="cursor"></span>';
+
+                charIndex++;
+
+                var speed = Math.random() * 100 + 80;
+                if (fullName[charIndex - 1] === " ") speed += 150;
+                if (charIndex % 3 === 0) speed += Math.random() * 120;
+                setTimeout(typeName, speed);
+            } else if (charIndex === fullName.length) {
+                setTimeout(showHeart, 500);
+            }
+        }
+
+        function showHeart() {
+            typedName.innerHTML = fullName + '<span class="cursor heart">♥</span>';
+            setTimeout(function () {
+                roleInfo.classList.add("visible");
+                setTimeout(function () {
+                    successMessage.classList.add("visible");
+                    setTimeout(fadeOut, 1500);
+                }, 500);
+            }, 600);
+        }
+
+        function fadeOut() {
             splash.classList.add("hidden");
             setTimeout(function () {
                 if (splash && splash.parentNode) {
-                    splash.parentNode.removeChild(splash);
+                    splash.remove();
                 }
             }, 800);
         }
 
-        // Skip splash functionality
         function skipSplash(e) {
             if (e) e.preventDefault();
             if (!splash.classList.contains("hidden")) {
-                fadeOutSplash();
+                fadeOut();
             }
         }
 
-        // Event listeners for skipping
         splash.addEventListener("click", skipSplash);
-        document.addEventListener("keydown", function (e) {
-            skipSplash(e);
-        });
+        document.addEventListener("keydown", skipSplash);
+        skipInstruction.addEventListener("click", skipSplash);
 
-        // Start animation
-        setTimeout(typeWriter, 800);
+        setTimeout(showCompileSteps, 600);
 
-        // Fallback removal after 7 seconds
         setTimeout(function () {
             if (splash && !splash.classList.contains("hidden")) {
-                fadeOutSplash();
+                fadeOut();
             }
-        }, 7000);
+        }, 12000);
     });
 </script>
 

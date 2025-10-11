@@ -2,7 +2,7 @@ baseURL = "https://mohsenabdolahi.ir/"
 languageCode = "en-us"
 title = "Mohsen Abdolahi"
 theme = "terminal"
-paginate = 5
+pagination.pagerSize = 5
 enableGitInfo = true   # ✅ already enabled, good for "last updated" dates
 
 # Required for Chroma and the custom syntax highlighting
@@ -19,7 +19,7 @@ enableGitInfo = true   # ✅ already enabled, good for "last updated" dates
   [security.funcs]
     getenv = ["^HUGO_", "^CI$"]
   [security.exec]
-    allow = ["^(dart-)?sass(-embedded)?$", "^go$", "^npx$", "^postcss$"]
+    allow = ["^(dart-)?sass(-embedded)?$", "^go$", "^npx$", "^postcss$", "^git$"]
 
 # Deployment settings
 [deployment]

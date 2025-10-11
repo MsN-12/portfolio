@@ -1,3 +1,8 @@
+<!-- Mobile Enhancements CSS -->
+{{ $mobileCSS := resources.Get "css/mobile-enhancements.css" }} {{ if $mobileCSS }}
+<link rel="stylesheet" href="{{ $mobileCSS.RelPermalink }}" />
+{{ end }}
+
 <style>
     * {
         margin: 0;

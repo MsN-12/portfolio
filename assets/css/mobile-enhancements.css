@@ -1,0 +1,375 @@
+/* Mobile Enhancements CSS */
+/* Additional optimizations for portfolio mobile experience */
+
+/* Mobile-first CSS Custom Properties */
+:root {
+    --mobile-font-base: clamp(1rem, 2.5vw, 1.125rem);
+    --mobile-line-height: 1.7;
+    --mobile-spacing-xs: 0.5rem;
+    --mobile-spacing-sm: 1rem;
+    --mobile-spacing-md: 1.5rem;
+    --mobile-spacing-lg: 2rem;
+    --mobile-spacing-xl: 3rem;
+    --mobile-border-radius: 12px;
+    --mobile-touch-target: 48px;
+    --mobile-text-contrast: rgba(255, 255, 255, 0.95);
+    --mobile-text-secondary: rgba(169, 169, 179, 0.9);
+    --mobile-background-card: rgba(30, 30, 30, 0.95);
+    --mobile-border-color: rgba(255, 168, 107, 0.15);
+    --mobile-hover-bg: rgba(255, 168, 107, 0.08);
+}
+
+/* Improved Mobile Typography */
+@media (max-width: 768px) {
+    body {
+        font-size: var(--mobile-font-base);
+        line-height: var(--mobile-line-height);
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        text-rendering: optimizeSpeed;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Improve heading hierarchy on mobile */
+    h1 {
+        font-size: clamp(1.8rem, 5vw, 2.2rem);
+    }
+    h2 {
+        font-size: clamp(1.4rem, 4vw, 1.7rem);
+    }
+    h3 {
+        font-size: clamp(1.2rem, 3.5vw, 1.4rem);
+    }
+    h4 {
+        font-size: clamp(1.1rem, 3vw, 1.2rem);
+    }
+
+    /* Better paragraph spacing */
+    p {
+        margin-bottom: var(--mobile-spacing-md);
+        max-width: none;
+    }
+}
+
+/* Enhanced Touch Interactions */
+@media (max-width: 768px) {
+    /* Improve button touch targets */
+    .action-button,
+    button,
+    .contact-link,
+    a[role="button"] {
+        min-height: var(--mobile-touch-target);
+        min-width: var(--mobile-touch-target);
+        padding: var(--mobile-spacing-sm) var(--mobile-spacing-md);
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Better link spacing */
+    a {
+        padding: 0.25rem;
+        margin: -0.25rem;
+        touch-action: manipulation;
+    }
+
+    /* Improve form elements */
+    input,
+    textarea,
+    select {
+        min-height: var(--mobile-touch-target);
+        font-size: 16px; /* Prevent iOS zoom */
+        padding: var(--mobile-spacing-sm);
+    }
+}
+
+/* Mobile Scroll Improvements */
+@media (max-width: 768px) {
+    /* Smooth scrolling with better performance */
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: var(--mobile-spacing-lg);
+    }
+
+    /* Better scroll containers */
+    .skills-grid,
+    .experience-grid,
+    .hero-actions {
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .skill-category,
+    .experience-item,
+    .action-button {
+        scroll-snap-align: start;
+    }
+}
+
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+    /* Optimize animations for mobile */
+    * {
+        will-change: auto;
+    }
+
+    .hero-card,
+    .section-card {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+    }
+
+    /* Reduce animation complexity on mobile */
+    @media (prefers-reduced-motion: no-preference) {
+        .section-card {
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+    }
+
+    /* Disable animations if user prefers reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}
+
+/* Mobile Content Readability */
+@media (max-width: 768px) {
+    /* Improve contrast and readability */
+    .hero-about p,
+    .experience-highlights li,
+    .skill-description {
+        color: var(--mobile-text-contrast);
+        line-height: var(--mobile-line-height);
+    }
+
+    /* Better visual hierarchy */
+    .section-title {
+        margin-bottom: var(--mobile-spacing-lg);
+        padding-bottom: var(--mobile-spacing-sm);
+        border-bottom: none;
+        border-left: none;
+        padding-left: 0;
+    }
+
+    /* Improve list readability */
+    .experience-highlights li {
+        margin-bottom: var(--mobile-spacing-md);
+        padding: 0 var(--mobile-spacing-sm);
+        background: var(--mobile-hover-bg);
+        border-radius: 8px;
+        border-left: 3px solid var(--accent);
+    }
+}
+
+/* Mobile Layout Improvements */
+@media (max-width: 768px) {
+    /* Better spacing for main containers */
+    .post {
+        padding: var(--mobile-spacing-sm);
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+
+    .hero-card,
+    .section-card {
+        margin: 0 0 var(--mobile-spacing-xl) 0;
+        padding: var(--mobile-spacing-lg);
+        border-radius: var(--mobile-border-radius);
+        box-shadow:
+            0 4px 20px rgba(0, 0, 0, 0.3),
+            0 0 0 1px var(--mobile-border-color);
+    }
+
+    /* Stack everything vertically */
+    .job-header,
+    .hero-actions,
+    .skills-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--mobile-spacing-md);
+    }
+
+    /* Better grid layouts */
+    .skills-grid {
+        display: flex;
+        flex-direction: column;
+        gap: var(--mobile-spacing-md);
+    }
+
+    .soft-skills-grid {
+        display: flex;
+        flex-direction: column;
+        gap: var(--mobile-spacing-sm);
+    }
+}
+
+/* Ultra-small screens (phones in portrait) */
+@media (max-width: 480px) {
+    :root {
+        --mobile-font-base: clamp(0.95rem, 2.2vw, 1rem);
+        --mobile-spacing-sm: 0.75rem;
+        --mobile-spacing-md: 1rem;
+        --mobile-spacing-lg: 1.5rem;
+        --mobile-spacing-xl: 2rem;
+    }
+
+    .hero-card,
+    .section-card {
+        padding: var(--mobile-spacing-md);
+        margin: 0 0 var(--mobile-spacing-lg) 0;
+    }
+
+    /* Ensure readability on very small screens */
+    .hero-title {
+        font-size: clamp(1.6rem, 6vw, 2rem);
+        line-height: 1.1;
+        margin-bottom: var(--mobile-spacing-md);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+        margin-bottom: var(--mobile-spacing-lg);
+    }
+
+    /* Stack action buttons vertically */
+    .hero-actions {
+        gap: var(--mobile-spacing-sm);
+    }
+
+    .action-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Landscape mobile optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero-card {
+        padding: var(--mobile-spacing-md) var(--mobile-spacing-lg);
+    }
+
+    .section-card {
+        padding: var(--mobile-spacing-md) var(--mobile-spacing-lg);
+    }
+
+    /* Use available width more efficiently in landscape */
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--mobile-spacing-md);
+    }
+
+    .hero-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+/* Dark mode mobile optimizations */
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+    :root {
+        --mobile-background-card: rgba(18, 18, 18, 0.98);
+        --mobile-text-contrast: rgba(255, 255, 255, 0.92);
+        --mobile-text-secondary: rgba(169, 169, 179, 0.85);
+        --mobile-border-color: rgba(255, 168, 107, 0.2);
+    }
+}
+
+/* High contrast mode support */
+@media (max-width: 768px) and (prefers-contrast: high) {
+    :root {
+        --mobile-text-contrast: #ffffff;
+        --mobile-text-secondary: #e0e0e0;
+        --mobile-border-color: var(--accent);
+    }
+
+    .section-title::before {
+        height: 4px;
+    }
+
+    .experience-highlights li::before {
+        font-size: 1rem;
+    }
+}
+
+/* Accessibility improvements for mobile */
+@media (max-width: 768px) {
+    /* Focus indicators */
+    *:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+
+    /* Skip link for screen readers */
+    .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: var(--accent);
+        color: var(--background);
+        padding: 8px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        z-index: 9999;
+    }
+
+    .skip-link:focus {
+        top: 6px;
+    }
+
+    /* Better focus management for mobile */
+    .action-button:focus,
+    .contact-link:focus {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 3px var(--accent);
+    }
+}
+
+/* Print styles for mobile */
+@media print {
+    .hero-actions,
+    .quick-contact,
+    script {
+        display: none !important;
+    }
+
+    .hero-card,
+    .section-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}
+
+/* Loading performance optimizations */
+@media (max-width: 768px) {
+    /* Optimize images for mobile */
+    img {
+        max-width: 100%;
+        height: auto;
+        loading: lazy;
+    }
+
+    /* Reduce layout shift */
+    .hero-card,
+    .section-card {
+        min-height: fit-content;
+    }
+
+    /* Optimize for mobile bandwidth */
+    .skill-icon {
+        will-change: transform;
+        transform: translateZ(0);
+    }
+}

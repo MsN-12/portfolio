@@ -1,4 +1,4 @@
-baseURL = "https://msn-12.github.io/portfolio/"   # ✅ must match your Pages URL
+baseURL = "https://msn-12.github.io/"
 languageCode = "en-us"
 title = "Mohsen Abdolahi"
 theme = "terminal"

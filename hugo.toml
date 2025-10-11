@@ -1,4 +1,4 @@
-baseURL = "https://msn-12.github.io/portfolio/"
+baseURL = "https://mohsenabdolahi.ir/"
 languageCode = "en-us"
 title = "Mohsen Abdolahi"
 theme = "terminal"
@@ -13,6 +13,27 @@ enableGitInfo = true   # ✅ already enabled, good for "last updated" dates
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+
+# Security and HTTPS settings
+[security]
+  [security.funcs]
+    getenv = ["^HUGO_", "^CI$"]
+  [security.exec]
+    allow = ["^(dart-)?sass(-embedded)?$", "^go$", "^npx$", "^postcss$"]
+
+# Deployment settings
+[deployment]
+  [[deployment.targets]]
+    name = "production"
+    URL = "s3://your-bucket?region=us-east-1"
+  [[deployment.matchers]]
+    pattern = "^.+\\.(js|css|svg|ttf)$"
+    cacheControl = "max-age=31536000, no-transform, public"
+    gzip = true
+  [[deployment.matchers]]
+    pattern = "^.+\\.(png|jpg)$"
+    cacheControl = "max-age=31536000, no-transform, public"
+    gzip = false
 
 [params]
   # dir name of your main content (default is `content/posts`)

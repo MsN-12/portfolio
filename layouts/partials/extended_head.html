@@ -1,3 +1,6 @@
+<!-- Zen Browser Color Scheme -->
+{{ partial "zen_colors.html" . }}
+
 <!-- Mobile Enhancements CSS -->
 {{ $mobileCSS := resources.Get "css/mobile-enhancements.css" }} {{ if $mobileCSS }}
 <link rel="stylesheet" href="{{ $mobileCSS.RelPermalink }}" />
@@ -31,9 +34,11 @@
         font-family: "Fira Code", "SF Mono", "Monaco", "Inconsolata", monospace;
     }
 
-    #terminal-splash.hidden {
+    #terminal-splash.fade-out-active {
         opacity: 0;
         visibility: hidden;
+        /* Ensure pointer events are off during fade out */
+        pointer-events: none;
     }
 
     .cubes {
@@ -775,7 +780,6 @@
 
         var steps = [
             { icon: "⚙", text: "Initializing portfolio...", status: "[ OK ]" },
-            { icon: "📦", text: "Loading components...", status: "[ OK ]" },
             { icon: "🔧", text: "Building profile...", status: "[ OK ]" },
         ];
 
@@ -849,13 +853,13 @@
                             typedName.innerHTML = fullName.substring(0, charIndex - 1) + '<span class="cursor"></span>';
                             charIndex--;
                             currentBackspaceCount++;
-                            setTimeout(performBackspace, 100); // Speed of each backspace animation step
+                            setTimeout(performBackspace, 50); // Shorter backspace animation step
                         } else {
                             isBackspacing = false;
-                            setTimeout(typeName, 300); // Delay before continuing normal typing after backspace sequence
+                            setTimeout(typeName, 150); // Shorter delay before continuing normal typing after backspace sequence
                         }
                     };
-                    setTimeout(performBackspace, 200); // Initial delay before starting the backspace sequence
+                    setTimeout(performBackspace, 100); // Shorter initial delay before starting the backspace sequence
                     return;
                 }
 
@@ -864,12 +868,12 @@
 
                 charIndex++;
 
-                var speed = Math.random() * 100 + 80;
-                if (fullName[charIndex - 1] === " ") speed += 150;
-                if (charIndex % 3 === 0) speed += Math.random() * 120;
+                var speed = Math.random() * 60 + 40; // Reduced typing speed range
+                if (fullName[charIndex - 1] === " ") speed += 75; // Reduced space delay
+                if (charIndex % 3 === 0) speed += Math.random() * 60; // Reduced random delay
                 setTimeout(typeName, speed);
             } else if (charIndex === fullName.length) {
-                setTimeout(showHeart, 500);
+                setTimeout(showHeart, 250); // Shorter delay before showing heart
             }
         }
 
@@ -885,17 +889,19 @@
         }
 
         function fadeOut() {
-            splash.classList.add("hidden");
-            setTimeout(function () {
+            splash.classList.add("fade-out-active");
+            // Remove the splash element after the transition is complete
+            splash.addEventListener("transitionend", function handler() {
                 if (splash && splash.parentNode) {
                     splash.remove();
                 }
-            }, 800);
+                splash.removeEventListener("transitionend", handler); // Clean up
+            });
         }
 
         function skipSplash(e) {
             if (e) e.preventDefault();
-            if (!splash.classList.contains("hidden")) {
+            if (!splash.classList.contains("fade-out-active")) {
                 fadeOut();
             }
         }
@@ -939,3 +945,6 @@
         }
     }
 </style>
+
+<!-- Zen Browser Theme Switcher -->
+{{ partial "zen_theme_switcher.html" . }}

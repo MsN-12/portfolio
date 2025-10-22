@@ -1,0 +1,182 @@
+<!-- Zen Browser Style Theme Switcher -->
+<style>
+    .zen-theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: var(--zen-paper);
+        border: 2px solid var(--zen-coral);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px var(--zen-muted);
+    }
+
+    .zen-theme-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px var(--zen-subtle);
+        background: var(--zen-coral);
+    }
+
+    .zen-theme-toggle svg {
+        width: 24px;
+        height: 24px;
+        fill: var(--zen-coral);
+        transition: fill 0.3s ease;
+    }
+
+    .zen-theme-toggle:hover svg {
+        fill: var(--zen-paper);
+    }
+
+    .zen-theme-toggle .sun-icon {
+        display: none;
+    }
+
+    .zen-theme-toggle .moon-icon {
+        display: block;
+    }
+
+    [data-theme="dark"] .zen-theme-toggle .sun-icon {
+        display: block;
+    }
+
+    [data-theme="dark"] .zen-theme-toggle .moon-icon {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .zen-theme-toggle {
+            width: 44px;
+            height: 44px;
+            top: 15px;
+            right: 15px;
+        }
+
+        .zen-theme-toggle svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+</style>
+
+<button class="zen-theme-toggle" id="zenThemeToggle" aria-label="Toggle theme">
+    <!-- Sun Icon (shown in dark mode) -->
+    <svg
+        class="sun-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    >
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+
+    <!-- Moon Icon (shown in light mode) -->
+    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+</button>
+
+<script>
+    // Theme toggle functionality with cross-tab sync
+    (function () {
+        function getTheme() {
+            if (typeof localStorage !== "undefined" && localStorage.getItem("zen-theme")) {
+                return localStorage.getItem("zen-theme");
+            }
+            if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                return "dark";
+            }
+            return "light";
+        }
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute("data-theme", theme);
+            if (typeof localStorage !== "undefined") {
+                localStorage.setItem("zen-theme", theme);
+            }
+
+            // Dispatch custom event for other components to react
+            if (typeof window !== "undefined") {
+                window.dispatchEvent(new CustomEvent("themechange", { detail: { theme } }));
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            setTheme(newTheme);
+        }
+
+        // Wait for DOM to be ready
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initThemeToggle);
+        } else {
+            initThemeToggle();
+        }
+
+        function initThemeToggle() {
+            const themeToggle = document.getElementById("zenThemeToggle");
+
+            // Toggle theme on button click
+            if (themeToggle) {
+                themeToggle.addEventListener("click", toggleTheme);
+            }
+
+            // Listen for system theme changes
+            if (window.matchMedia) {
+                const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+                // Check if addEventListener is supported (newer browsers)
+                if (darkModeQuery.addEventListener) {
+                    darkModeQuery.addEventListener("change", function (e) {
+                        // Only auto-switch if user hasn't manually set a preference
+                        if (!localStorage.getItem("zen-theme")) {
+                            setTheme(e.matches ? "dark" : "light");
+                        }
+                    });
+                } else if (darkModeQuery.addListener) {
+                    // Fallback for older browsers
+                    darkModeQuery.addListener(function (e) {
+                        if (!localStorage.getItem("zen-theme")) {
+                            setTheme(e.matches ? "dark" : "light");
+                        }
+                    });
+                }
+            }
+
+            // Listen for storage changes (cross-tab sync)
+            window.addEventListener("storage", function (e) {
+                if (e.key === "zen-theme" && e.newValue) {
+                    document.documentElement.setAttribute("data-theme", e.newValue);
+                }
+            });
+
+            // Keyboard shortcut: Ctrl/Cmd + Shift + D to toggle theme
+            document.addEventListener("keydown", function (e) {
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "D") {
+                    e.preventDefault();
+                    toggleTheme();
+                }
+            });
+        }
+    })();
+</script>

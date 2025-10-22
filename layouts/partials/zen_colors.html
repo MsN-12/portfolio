@@ -1,0 +1,866 @@
+<style>
+    /* Zen Browser Color Scheme - Minimal & Calm Design */
+    /* Coral (#f76f53) used VERY sparingly for maximum impact */
+
+    :root {
+        /* Zen Browser Light Mode Colors */
+        --zen-paper: #f2f0e3;
+        --zen-dark: #2e2e2e;
+        --zen-coral: #f76f53;
+        --zen-muted: rgba(0, 0, 0, 0.05);
+        --zen-subtle: rgba(0, 0, 0, 0.08);
+        --zen-border: rgba(0, 0, 0, 0.1);
+        --zen-blue: #6287f5;
+        --zen-green: #63f78b;
+
+        /* Override Terminal Theme Variables */
+        --color: var(--zen-dark);
+        --accent: var(--zen-coral);
+        --background: var(--zen-paper);
+    }
+
+    [data-theme="dark"] {
+        /* Zen Browser Dark Mode Colors */
+        --zen-paper: #1f1f1f;
+        --zen-dark: #d1cfc0;
+        --zen-muted: rgba(255, 255, 255, 0.03);
+        --zen-subtle: rgba(255, 255, 255, 0.06);
+        --zen-border: rgba(255, 255, 255, 0.1);
+
+        /* Override Terminal Theme Variables for Dark Mode */
+        --color: var(--zen-dark);
+        --accent: var(--zen-coral);
+        --background: var(--zen-paper);
+    }
+
+    /* Body background */
+    body,
+    html {
+        background-color: var(--zen-paper) !important;
+        color: var(--zen-dark) !important;
+        transition:
+            background-color 0.3s ease,
+            color 0.3s ease;
+    }
+
+    /* Main content wrapper */
+    .main,
+    .container,
+    .content {
+        background-color: var(--zen-paper) !important;
+        color: var(--zen-dark) !important;
+    }
+
+    /* Header styling */
+    .header {
+        background-color: var(--zen-paper) !important;
+        color: var(--zen-dark) !important;
+    }
+
+    /* Post header */
+    .post__header {
+        background-color: var(--zen-paper) !important;
+        color: var(--zen-dark) !important;
+    }
+
+    /* Page header and navigation */
+    header,
+    nav,
+    .navigation,
+    .site-header {
+        background-color: var(--zen-paper) !important;
+        color: var(--zen-dark) !important;
+    }
+
+    /* Hero card styling - minimal borders, no coral */
+    .hero-card {
+        background: var(--zen-paper) !important;
+        border: 1px solid var(--zen-border) !important;
+        box-shadow: 0 2px 8px var(--zen-muted) !important;
+    }
+
+    /* Top border accent - only place for coral in hero */
+    .hero-card::before {
+        background: var(--zen-border) !important;
+        height: 1px !important;
+    }
+
+    .basmala {
+        color: var(--zen-dark) !important;
+        opacity: 0.7 !important;
+    }
+
+    .hero-title {
+        color: var(--zen-dark) !important;
+    }
+
+    .hero-subtitle {
+        color: var(--zen-dark) !important;
+        opacity: 0.8 !important;
+    }
+
+    .hero-tagline {
+        color: var(--zen-dark) !important;
+        background: var(--zen-muted) !important;
+        border-left: 2px solid var(--zen-border) !important;
+    }
+
+    .hero-about {
+        border-top: 1px solid var(--zen-border) !important;
+        border-bottom: 1px solid var(--zen-border) !important;
+    }
+
+    .quote {
+        color: var(--zen-dark) !important;
+        opacity: 0.8 !important;
+    }
+
+    /* Section cards - calm and minimal */
+    .section-card {
+        background: var(--zen-paper) !important;
+        border: 1px solid var(--zen-border) !important;
+        box-shadow: 0 1px 3px var(--zen-muted) !important;
+        transition: all 0.3s ease;
+    }
+
+    .section-card:hover {
+        border-color: var(--zen-subtle) !important;
+        box-shadow: 0 2px 8px var(--zen-muted) !important;
+        transform: none !important;
+    }
+
+    .section-title {
+        color: var(--zen-dark) !important;
+    }
+
+    /* Accent bar under section titles - coral for visual accent */
+    .section-title::before {
+        background: var(--zen-coral) !important;
+    }
+
+    /* Skills section titles - coral color */
+    .skills-section-title {
+        color: var(--zen-coral) !important;
+    }
+
+    /* If skills section titles have underlines, make them coral */
+    .skills-section-title::before,
+    .skills-section-title::after {
+        background: var(--zen-coral) !important;
+    }
+
+    /* Skill category titles */
+    .skill-category-title {
+        color: var(--zen-dark) !important;
+    }
+
+    /* Any title underlines in skills area */
+    .skill-category-title::before,
+    .skill-category-title::after {
+        background: var(--zen-coral) !important;
+    }
+
+    /* Experience section - very minimal */
+    .experience-item {
+        background: transparent !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    .experience-item:hover {
+        background: var(--zen-muted) !important;
+        border-color: var(--zen-border) !important;
+        transform: translateX(2px) !important;
+    }
+
+    /* Job header elements */
+    .job-header h3,
+    .job-title {
+        color: var(--zen-dark) !important;
+    }
+
+    .company {
+        color: var(--zen-dark) !important;
+        opacity: 0.8 !important;
+    }
+
+    .date {
+        color: var(--zen-dark) !important;
+        opacity: 0.6 !important;
+    }
+
+    /* Skills section - minimal styling */
+    .skill-category {
+        background: transparent !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    .skill-category:hover {
+        border-color: var(--zen-subtle) !important;
+        background: var(--zen-muted) !important;
+    }
+
+    .skill-category h3 {
+        color: var(--zen-dark) !important;
+    }
+
+    .skill-item {
+        background: var(--zen-muted) !important;
+        color: var(--zen-dark) !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    .skill-item:hover {
+        background: var(--zen-subtle) !important;
+    }
+
+    /* Projects section */
+    .project-card {
+        background: var(--zen-paper) !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    .project-card:hover {
+        border-color: var(--zen-subtle) !important;
+        box-shadow: 0 2px 8px var(--zen-muted) !important;
+    }
+
+    /* Links - coral only for important CTAs */
+    a {
+        color: var(--zen-dark) !important;
+        text-decoration: underline !important;
+        text-decoration-color: var(--zen-border) !important;
+        transition: all 0.2s ease;
+    }
+
+    a:hover {
+        text-decoration-color: var(--zen-coral) !important;
+    }
+
+    /* CTA buttons and important links - ONLY place for coral backgrounds */
+    .button,
+    .cta-button,
+    a.button,
+    a[href*="download"],
+    a[href*="contact"] {
+        background: var(--zen-coral) !important;
+        color: var(--zen-paper) !important;
+        border: none !important;
+        text-decoration: none !important;
+    }
+
+    .button:hover,
+    .cta-button:hover,
+    a.button:hover,
+    a[href*="download"]:hover,
+    a[href*="contact"]:hover {
+        background: var(--zen-blue) !important;
+        transform: translateY(-1px);
+    }
+
+    /* Regular buttons - neutral */
+    button:not(.zen-theme-toggle):not(.cta-button) {
+        background: var(--zen-muted) !important;
+        color: var(--zen-dark) !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    button:not(.zen-theme-toggle):not(.cta-button):hover {
+        background: var(--zen-subtle) !important;
+    }
+
+    /* Terminal splash screen - better for day mode and smooth transition */
+    #terminal-splash {
+        background: var(--zen-paper) !important;
+        transition:
+            opacity 0.8s ease-out,
+            visibility 0.8s ease-out !important; /* Explicit transition */
+    }
+
+    [data-theme="light"] #terminal-splash {
+        background: linear-gradient(135deg, #faf8f0 0%, var(--zen-paper) 50%, #f0ede0 100%) !important;
+    }
+
+    [data-theme="dark"] #terminal-splash {
+        background: linear-gradient(135deg, #1a1a1a 0%, var(--zen-paper) 50%, #252525 100%) !important;
+    }
+
+    .terminal-window {
+        background: var(--zen-paper) !important;
+        border: 1px solid var(--zen-border) !important;
+        box-shadow: 0 4px 24px var(--zen-muted) !important;
+    }
+
+    .terminal-header {
+        background: var(--zen-muted) !important;
+        border-bottom: 1px solid var(--zen-border) !important;
+    }
+
+    .dot-red {
+        background-color: #ef4444 !important;
+    }
+
+    .dot-yellow {
+        background-color: #fbbf24 !important;
+    }
+
+    .dot-green {
+        background-color: var(--zen-green) !important;
+    }
+
+    .terminal-title {
+        color: var(--zen-dark) !important;
+    }
+
+    .terminal-title {
+        color: var(--zen-dark) !important;
+        /* Remove position relative and related pseudo-elements that cause glitch */
+        position: static !important;
+    }
+
+    /* Ensure no glitch effect from ::before or ::after pseudo-elements */
+    .terminal-title::before,
+    .terminal-title::after {
+        content: none !important;
+        display: none !important;
+    }
+
+    .terminal-body {
+        background: var(--zen-paper) !important;
+        color: var(--zen-dark) !important;
+    }
+
+    .compile-line {
+        color: var(--zen-dark) !important;
+    }
+
+    .compile-icon {
+        color: var(--zen-dark) !important;
+        opacity: 0.8 !important;
+    }
+
+    .compile-status {
+        color: var(--zen-green) !important;
+    }
+
+    .typed-name {
+        color: var(--zen-coral) !important;
+    }
+
+    /* Remove glitch double text effect */
+    .typed-name.glitch::before,
+    .typed-name.glitch::after {
+        display: none !important;
+        content: none !important;
+    }
+
+    .typed-name.glitch {
+        animation: none !important;
+    }
+
+    .cursor {
+        background-color: var(--zen-coral) !important;
+    }
+
+    /* Heart cursor - no background */
+    .cursor.heart {
+        background: transparent !important;
+        background-color: transparent !important;
+        color: var(--zen-coral) !important;
+    }
+
+    .role-label {
+        color: var(--zen-dark) !important;
+        opacity: 0.8 !important;
+    }
+
+    /* Post title */
+    .post__title {
+        color: var(--zen-dark) !important;
+    }
+
+    /* Article and post elements */
+    article,
+    .post {
+        background-color: var(--zen-paper) !important;
+        color: var(--zen-dark) !important;
+    }
+
+    .post__content {
+        background-color: var(--zen-paper) !important;
+    }
+
+    .success-icon {
+        color: var(--zen-green) !important;
+    }
+
+    .skip-instruction {
+        color: var(--zen-dark) !important;
+        background: var(--zen-muted) !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    .skip-instruction:hover {
+        background: var(--zen-subtle) !important;
+        border-color: var(--zen-border) !important;
+    }
+
+    /* Orbs in splash screen - very subtle */
+    .orb-1 {
+        background: linear-gradient(45deg, rgba(247, 111, 83, 0.08) 0%, transparent 70%) !important;
+    }
+
+    .orb-2 {
+        background: linear-gradient(135deg, rgba(98, 135, 245, 0.06) 0%, transparent 70%) !important;
+    }
+
+    .orb-3 {
+        background: linear-gradient(90deg, rgba(99, 247, 139, 0.06) 0%, transparent 70%) !important;
+    }
+
+    [data-theme="dark"] .orb-1 {
+        background: linear-gradient(45deg, rgba(247, 111, 83, 0.12) 0%, transparent 70%) !important;
+    }
+
+    [data-theme="dark"] .orb-2 {
+        background: linear-gradient(135deg, rgba(98, 135, 245, 0.1) 0%, transparent 70%) !important;
+    }
+
+    [data-theme="dark"] .orb-3 {
+        background: linear-gradient(90deg, rgba(99, 247, 139, 0.1) 0%, transparent 70%) !important;
+    }
+
+    /* Cubes - orange and glowing */
+    /* Cubes - modern, smooth, shining orange */
+    .face {
+        border: 1px solid var(--zen-coral) !important;
+        background: rgba(247, 111, 83, 0.08) !important; /* Lighter background for face */
+        box-shadow:
+            0 0 15px var(--zen-coral),
+            inset 0 0 10px rgba(247, 111, 83, 0.5) !important; /* Stronger glow */
+        transition: all 0.5s ease; /* Smooth transition for face changes */
+    }
+
+    .cube {
+        opacity: 0.7 !important; /* Slightly more visible */
+        animation:
+            rotateCube 20s linear infinite,
+            floatCube 15s ease-in-out infinite,
+            pulseGlow 4s infinite alternate !important; /* Add pulse glow */
+        transition: opacity 0.5s ease;
+    }
+
+    /* Keyframes for a pulsating glow effect on cubes */
+    @keyframes pulseGlow {
+        0% {
+            box-shadow: 0 0 5px var(--zen-coral);
+        }
+        50% {
+            box-shadow:
+                0 0 20px var(--zen-coral),
+                0 0 30px rgba(247, 111, 83, 0.5);
+        }
+        100% {
+            box-shadow: 0 0 5px var(--zen-coral);
+        }
+    }
+
+    @keyframes floatCube {
+        0%,
+        100% {
+            transform: translateZ(0) translateY(0);
+            opacity: 0.7; /* Match new cube opacity */
+        }
+        50% {
+            transform: translateZ(60px) translateY(-60px); /* Slightly larger float */
+            opacity: 0.9; /* More visible at peak float */
+        }
+    }
+
+    /* Heart cursor - make it red */
+    .cursor.heart {
+        background: transparent !important;
+        background-color: transparent !important;
+        color: var(--zen-coral) !important; /* Softer coral for heart */
+    }
+
+    /* Contact section */
+    .contact-card {
+        background: transparent !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    .contact-card:hover {
+        border-color: var(--zen-subtle) !important;
+        background: var(--zen-muted) !important;
+    }
+
+    /* Footer */
+    footer {
+        background: var(--zen-paper) !important;
+        color: var(--zen-dark) !important;
+        border-top: 1px solid var(--zen-border) !important;
+    }
+
+    /* Code blocks */
+    pre,
+    code {
+        background: var(--zen-muted) !important;
+        color: var(--zen-dark) !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    /* Text elements */
+    p,
+    span,
+    div,
+    li {
+        color: var(--zen-dark) !important;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--zen-dark) !important;
+    }
+
+    /* Borders */
+    hr {
+        border-color: var(--zen-border) !important;
+    }
+
+    /* Input fields */
+    input,
+    textarea,
+    select {
+        background: var(--zen-paper) !important;
+        color: var(--zen-dark) !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        border-color: var(--zen-coral) !important;
+        outline: none;
+        box-shadow: 0 0 0 2px var(--zen-muted);
+    }
+
+    /* Scrollbar (for browsers that support it) */
+    ::-webkit-scrollbar {
+        width: 10px;
+        background: var(--zen-paper);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--zen-border);
+        border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--zen-subtle);
+    }
+
+    /* Selection - coral only for selection */
+    ::selection {
+        background: var(--zen-coral);
+        color: var(--zen-paper);
+    }
+
+    ::-moz-selection {
+        background: var(--zen-coral);
+        color: var(--zen-paper);
+    }
+
+    /* Dark mode specific adjustments */
+    [data-theme="dark"] .section-card {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    [data-theme="dark"] .section-card:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    [data-theme="dark"] .hero-card {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* Navigation menu */
+    nav,
+    .nav,
+    .menu {
+        background: var(--zen-paper) !important;
+    }
+
+    nav a,
+    .nav a,
+    .menu a {
+        color: var(--zen-dark) !important;
+    }
+
+    nav a:hover,
+    .nav a:hover,
+    .menu a:hover {
+        color: var(--zen-dark) !important;
+        opacity: 0.7;
+    }
+
+    /* List items */
+    .list,
+    .posts {
+        background: var(--zen-paper) !important;
+    }
+
+    /* Post items */
+    .post-item,
+    .list-item {
+        background: var(--zen-paper) !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    .post-item:hover,
+    .list-item:hover {
+        border-color: var(--zen-subtle) !important;
+        background: var(--zen-muted) !important;
+    }
+
+    /* Ensure smooth theme transitions */
+    * {
+        transition:
+            background-color 0.3s ease,
+            color 0.3s ease,
+            border-color 0.3s ease !important;
+    }
+
+    /* Remove transition from specific elements that shouldn't animate */
+    .cursor,
+    .typed-name,
+    svg,
+    img {
+        transition: none !important;
+    }
+
+    /* Soft Skills Cards - Fix day/night mode sync */
+    .soft-skill-item {
+        background: var(--zen-paper) !important;
+        border: 1px solid var(--zen-border) !important;
+        color: var(--zen-dark) !important;
+    }
+
+    .soft-skill-item:hover {
+        border-color: var(--zen-subtle) !important;
+        background: var(--zen-muted) !important;
+    }
+
+    .soft-skill-icon {
+        color: var(--zen-dark) !important;
+    }
+
+    .soft-skill-name {
+        color: var(--zen-dark) !important;
+    }
+
+    .soft-skill-description {
+        color: var(--zen-dark) !important;
+        opacity: 0.7 !important;
+    }
+
+    /* Honor/Awards Cards - Fix day/night mode sync */
+    .award-item {
+        background: var(--zen-paper) !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    .award-item:hover {
+        background: var(--zen-muted) !important;
+        border-color: var(--zen-subtle) !important;
+    }
+
+    .award-icon {
+        color: var(--zen-coral) !important;
+    }
+
+    .award-title {
+        color: var(--zen-dark) !important;
+    }
+
+    .award-details {
+        color: var(--zen-dark) !important;
+        opacity: 0.7 !important;
+    }
+
+    /* Interests/Hobbies Tags - Fix day/night mode sync */
+    .interest-tag,
+    .interests span {
+        background: var(--zen-muted) !important;
+        color: var(--zen-dark) !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    .interest-tag:hover,
+    .interests span:hover {
+        background: var(--zen-subtle) !important;
+        border-color: var(--zen-subtle) !important;
+    }
+
+    /* Hero Actions Container - Fix day/night mode */
+    .hero-actions {
+        background: transparent !important;
+    }
+
+    /* Resume Action Buttons - Override ALL inline styles */
+    .action-button,
+    .hero-actions a,
+    a.action-button,
+    .hero-actions a[style],
+    .action-button[style] {
+        background: var(--zen-muted) !important;
+        color: var(--zen-dark) !important;
+        border: 1px solid var(--zen-border) !important;
+        text-decoration: none !important;
+    }
+
+    .action-button:hover,
+    .hero-actions a:hover,
+    a.action-button:hover,
+    .hero-actions a[style]:hover,
+    .action-button[style]:hover {
+        background: var(--zen-subtle) !important;
+        border-color: var(--zen-coral) !important;
+        color: var(--zen-coral) !important;
+        opacity: 1 !important;
+    }
+
+    /* Override specific inline style combinations */
+    .action-button[style*="background: #2a2a2a"],
+    .action-button[style*="background:#2a2a2a"],
+    a[style*="background: #2a2a2a"],
+    a[style*="background:#2a2a2a"] {
+        background: var(--zen-muted) !important;
+        color: var(--zen-dark) !important;
+        border-color: var(--zen-border) !important;
+    }
+
+    .action-button[style*="background: var(--accent)"],
+    .action-button[style*="background:var(--accent)"],
+    a[style*="background: var(--accent)"],
+    a[style*="background:var(--accent)"] {
+        background: var(--zen-muted) !important;
+        color: var(--zen-dark) !important;
+        border-color: var(--zen-border) !important;
+    }
+
+    /* Contact Section - Fix hover and day mode sync */
+    .contact-card {
+        background: var(--zen-paper) !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    .contact-card:hover {
+        border-color: var(--zen-subtle) !important;
+        background: var(--zen-paper) !important;
+    }
+
+    /* Override inline styles in contact cards */
+    .contact-card div[style*="background: #1a1a1a"],
+    .contact-card div[style*="background:#1a1a1a"] {
+        background: var(--zen-paper) !important;
+        border: 1px solid var(--zen-border) !important;
+    }
+
+    /* Contact card paragraphs and text */
+    .contact-card p {
+        color: var(--zen-dark) !important;
+        opacity: 0.8 !important;
+    }
+
+    .contact-card h3 {
+        color: var(--zen-dark) !important;
+    }
+
+    .contact-card a {
+        color: var(--zen-coral) !important;
+        text-decoration: none !important;
+    }
+
+    .contact-card a:hover {
+        color: var(--zen-blue) !important;
+        text-decoration: underline !important;
+    }
+
+    /* Contact section dividers */
+    .contact-card div[style*="border-top"] {
+        border-top: 1px solid var(--zen-border) !important;
+    }
+
+    /* Contact icons/elements */
+    .contact-item {
+        background: var(--zen-paper) !important;
+        border: 1px solid var(--zen-border) !important;
+        color: var(--zen-dark) !important;
+    }
+
+    .contact-item:hover {
+        background: var(--zen-muted) !important;
+        border-color: var(--zen-subtle) !important;
+    }
+
+    .contact-icon {
+        color: var(--zen-dark) !important;
+        opacity: 0.8 !important;
+    }
+
+    /* Contact method labels and text */
+    .contact-method,
+    .contact-label,
+    .contact-value {
+        color: var(--zen-dark) !important;
+    }
+
+    /* Awards grid links */
+    .awards-grid a {
+        color: var(--zen-coral) !important;
+    }
+
+    .awards-grid a:hover {
+        color: var(--zen-blue) !important;
+        text-decoration-color: var(--zen-blue) !important;
+    }
+</style>
+
+<!-- Initialize theme immediately to prevent flash -->
+<script>
+    (function () {
+        function getTheme() {
+            if (typeof localStorage !== "undefined" && localStorage.getItem("zen-theme")) {
+                return localStorage.getItem("zen-theme");
+            }
+            if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                return "dark";
+            }
+            return "light";
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute("data-theme", theme);
+            if (typeof localStorage !== "undefined") {
+                localStorage.setItem("zen-theme", theme);
+            }
+        }
+
+        // Apply theme immediately
+        const theme = getTheme();
+        applyTheme(theme);
+
+        // Listen for storage changes (for multi-tab sync)
+        if (typeof window !== "undefined") {
+            window.addEventListener("storage", function (e) {
+                if (e.key === "zen-theme" && e.newValue) {
+                    applyTheme(e.newValue);
+                }
+            });
+        }
+    })();
+</script>

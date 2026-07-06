@@ -6,147 +6,68 @@ draft: false
 
 # Projects
 
-Here are some of the projects I've worked on. Each project represents a different challenge and learning experience in my journey as a software engineer.
+Selected work and project areas from my backend engineering experience.
 
-## Featured Projects
+## Backend Platform for Web Applications
 
-### 🚀 E-Commerce Platform
-**Technologies**: React, Node.js, PostgreSQL, Stripe API, AWS  
-**Status**: Production  
-**[GitHub](https://github.com/mohsenabdolahi/ecommerce-platform) | [Demo](https://demo-ecommerce.example.com)**
+**Technologies**: C#, .NET, ASP.NET Core, SQL Server, APIs  
+**Role**: Backend Developer
 
-A full-stack e-commerce platform with modern UI/UX, secure payment processing, and real-time inventory management. Features include user authentication, product catalog, shopping cart, order management, and admin dashboard.
+Built and maintained backend services for a large web application ecosystem, including APIs, backend dashboards, and monitoring-oriented tooling for frontend and mobile teams.
 
-**Key Features**:
-- Responsive design with React and Tailwind CSS
-- RESTful API with Express.js
-- Secure payment integration with Stripe
-- Real-time notifications using WebSocket
-- Cloud deployment on AWS with CI/CD
+**Highlights**:
+- Developed backend systems serving 100+ web applications
+- Created and documented APIs for product teams
+- Built operational dashboards and support tools
 
 ---
 
-### 📱 Task Management App
-**Technologies**: Next.js, TypeScript, Prisma, PostgreSQL, Vercel  
-**Status**: Production  
-**[GitHub](https://github.com/mohsenabdolahi/task-manager) | [Live Demo](https://taskman.example.com)**
+## Game Backend & Server Infrastructure
 
-A collaborative task management application with team workspaces, real-time updates, and advanced filtering capabilities. Built with modern React patterns and TypeScript for type safety.
+**Technologies**: Go, Nakama, Linux, Docker, HAProxy, Grafana, CI/CD  
+**Role**: Backend Developer & Server Manager
 
-**Key Features**:
-- Real-time collaboration with multiple users
-- Drag-and-drop task management
-- Advanced filtering and search
-- Team workspaces and permissions
-- Dark/light theme support
+Developed and operated backend services for game systems, including multiplayer infrastructure, deployment pipelines, server management, and monitoring.
 
----
-
-### 🤖 AI Chat Application
-**Technologies**: Python, FastAPI, OpenAI API, React, WebSocket  
-**Status**: Production  
-**[GitHub](https://github.com/mohsenabdolahi/ai-chat-app)**
-
-An intelligent chat application that integrates with OpenAI's GPT models. Features include conversation history, custom prompts, and real-time streaming responses.
-
-**Key Features**:
-- Integration with OpenAI GPT models
-- Real-time message streaming
-- Conversation history and management
-- Custom prompt templates
-- User authentication and sessions
+**Highlights**:
+- Built multiplayer backend services with Go and Nakama
+- Managed Linux servers and deployment workflows
+- Set up HAProxy-based routing and Grafana monitoring
+- Supported frontend tooling with React-based moderation panels
 
 ---
 
-### 🌐 Portfolio Website (This Site!)
-**Technologies**: Hugo, HTML/CSS, JavaScript, GitHub Pages  
-**Status**: Production  
-**[GitHub](https://github.com/mohsenabdolahi/portfolio)**
+## Analytics Metrics Platform
 
-A clean, fast, and responsive portfolio website built with Hugo static site generator. Features the Terminal theme for a retro, developer-friendly aesthetic.
+**Technologies**: Go, Kafka, ClickHouse, Grafana  
+**Role**: Backend Developer
 
-**Key Features**:
-- Static site generation with Hugo
-- Responsive design
-- Fast loading and SEO optimized
-- Blog functionality with markdown
-- Automated deployment with GitHub Actions
+Developed a scalable event collection and analytics platform for high-throughput event processing and real-time metrics calculation.
+
+**Highlights**:
+- Designed event ingestion flow with Kafka
+- Stored and queried analytics data in ClickHouse
+- Produced real-time metrics for operational dashboards
 
 ---
 
-### 🔗 URL Shortener Service
-**Technologies**: Go, Gin, Redis, PostgreSQL, Docker  
-**Status**: Production  
-**[GitHub](https://github.com/mohsenabdolahi/url-shortener)**
+## Security Assessment Work
 
-A high-performance URL shortening service built with Go. Features include custom aliases, analytics, expiration dates, and API access with rate limiting.
+**Technologies**: OWASP methodology, web application testing, CTF practice  
+**Role**: Penetration Tester
 
-**Key Features**:
-- High-performance Go backend
-- Redis caching for fast redirects
-- Custom URL aliases
-- Click analytics and statistics
-- RESTful API with authentication
-- Docker containerization
+Worked on web application security assessment and team-based security challenges at PGU APA.
+
+**Highlights**:
+- Performed web application security assessment
+- Applied OWASP testing methodology
+- Participated in CTF-style problem solving
 
 ---
 
-### 📊 Data Visualization Dashboard
-**Technologies**: React, D3.js, Python, Django, PostgreSQL  
-**Status**: Production  
-**[GitHub](https://github.com/mohsenabdolahi/data-dashboard)**
+## Portfolio Website
 
-An interactive data visualization dashboard for business analytics. Features real-time data updates, multiple chart types, and export capabilities.
+**Technologies**: Hugo, HTML, CSS, JavaScript, GitHub Pages  
+**Repository**: [github.com/MsN-12/portfolio_v2](https://github.com/MsN-12/portfolio_v2)
 
-**Key Features**:
-- Interactive charts with D3.js
-- Real-time data updates
-- Multiple visualization types
-- Data filtering and aggregation
-- Export to PDF/Excel
-- Responsive design
-
----
-
-## Open Source Contributions
-
-### 🌟 Popular Open Source Projects
-- **[awesome-react-components](https://github.com/brillout/awesome-react-components)** - Added several React component libraries
-- **[next.js](https://github.com/vercel/next.js)** - Documentation improvements and bug fixes
-- **[tailwindcss](https://github.com/tailwindlabs/tailwindcss)** - Community plugins and utilities
-
----
-
-## Experimental & Learning Projects
-
-### 🧪 Blockchain Voting System
-**Technologies**: Solidity, Web3.js, React, Ethereum  
-**[GitHub](https://github.com/mohsenabdolahi/blockchain-voting)**
-
-A decentralized voting system built on Ethereum blockchain for transparent and secure elections.
-
-### 🎮 Real-time Multiplayer Game
-**Technologies**: Node.js, Socket.io, Phaser.js, MongoDB  
-**[GitHub](https://github.com/mohsenabdolahi/multiplayer-game)**
-
-A browser-based multiplayer game with real-time synchronization and leaderboards.
-
-### 🤖 DevOps Automation Scripts
-**Technologies**: Python, Bash, Docker, AWS CLI  
-**[GitHub](https://github.com/mohsenabdolahi/devops-scripts)**
-
-Collection of automation scripts for common DevOps tasks including deployment, monitoring, and maintenance.
-
----
-
-## Technical Highlights
-
-- **Clean Code**: Following SOLID principles and design patterns
-- **Testing**: Unit tests, integration tests, and E2E testing
-- **Performance**: Optimization for speed and scalability
-- **Security**: Implementation of security best practices
-- **Documentation**: Comprehensive README files and code comments
-
----
-
-*Want to collaborate on a project or have an interesting idea? Feel free to [reach out](/contact)!*
+This website is a static Hugo portfolio focused on speed, simple navigation, and a terminal-inspired developer aesthetic.

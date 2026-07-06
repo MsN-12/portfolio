@@ -8,71 +8,49 @@ draft: false
 
 ﷽
 
-Hi, I'm **Mohsen Abdolahi** (also known as **Markazi**).
+Hi, I'm **Mohsen Abdolahi**.
 
-I'm a passionate software engineer and full-stack developer with expertise in modern web technologies, distributed systems, and cloud platforms. Throughout my career, I've worked on various projects ranging from small web applications to large-scale enterprise systems.
+I'm a software engineer focused on backend development, scalable systems, and production infrastructure. My current work is centered on C#/.NET and Go, with experience across web platforms, game backend services, analytics pipelines, monitoring, and deployment workflows.
 
-## What I Do
+I have worked with remote teams and co-founded a game studio, which shaped the way I approach engineering: practical architecture, clear communication, and responsibility for systems after they reach production.
 
-I specialize in building robust, scalable applications using cutting-edge technologies. My work spans across:
+## What I Work On
 
-- **Frontend Development**: Creating responsive, user-friendly interfaces with React, Next.js, and modern JavaScript
-- **Backend Development**: Building scalable APIs and services with Node.js, Python, and various databases
-- **Cloud & DevOps**: Deploying and managing applications on AWS, Docker, and Kubernetes
-- **System Architecture**: Designing distributed systems and microservices architectures
+- **Backend systems**: C#/.NET services, Go services, APIs, dashboards, and operational tools
+- **Game backend**: Go, Nakama, multiplayer services, and server-side game infrastructure
+- **Data and analytics**: Kafka, ClickHouse, event collection, real-time metrics, and reporting
+- **Infrastructure**: Linux servers, Docker, HAProxy, Nginx, Grafana, and CI/CD pipelines
+- **Security**: Web application assessment, OWASP methodology, and CTF-style problem solving
 
-## My Journey
+## Technical Stack
 
-My journey in software development started with a curiosity about how things work under the hood. Over the years, I've had the opportunity to work with diverse teams and tackle challenging problems across different domains.
+### Languages & Frameworks
+- C#, .NET, ASP.NET Core, Entity Framework
+- Go, Nakama
+- TypeScript, React
 
-I believe in writing clean, maintainable code and following best practices. I'm always eager to learn new technologies and share knowledge with the community.
+### Databases & Data Tools
+- SQL Server
+- PostgreSQL
+- Redis
+- Kafka
+- ClickHouse
 
-## Technologies & Skills
+### Infrastructure
+- Linux
+- Docker
+- HAProxy and Nginx
+- Grafana
+- GitHub Actions and CI/CD
 
-### Frontend
-- **Languages**: JavaScript, TypeScript, HTML, CSS
-- **Frameworks**: React, Next.js, Vue.js
-- **Styling**: Tailwind CSS, Styled Components, SASS
-- **Tools**: Webpack, Vite, ESLint, Prettier
+## Experience Snapshot
 
-### Backend
-- **Languages**: Node.js, Python, Go
-- **Frameworks**: Express.js, FastAPI, Django, Gin
-- **Databases**: PostgreSQL, MongoDB, Redis
-- **APIs**: REST, GraphQL, WebSocket
-
-### DevOps & Cloud
-- **Platforms**: AWS, Google Cloud, DigitalOcean
-- **Containerization**: Docker, Kubernetes
-- **CI/CD**: GitHub Actions, GitLab CI, Jenkins
-- **Monitoring**: Prometheus, Grafana, ELK Stack
-
-### Tools & Others
-- **Version Control**: Git, GitHub, GitLab
-- **OS**: Linux, macOS, Windows
-- **Editors**: VS Code, Vim, IntelliJ IDEA
-- **Design**: Figma, Adobe Creative Suite
-
-## Beyond Code
-
-When I'm not coding, you can find me:
-
-- 📚 Reading tech blogs and staying updated with industry trends
-- 🌱 Contributing to open-source projects
-- ✍️ Writing technical articles and sharing knowledge
-- 🎮 Playing games and exploring new technologies
-- 🏃‍♂️ Staying active and maintaining work-life balance
+- **Backend Developer**, Baramjk, Remote Kuwait
+- **Backend Developer & Server Manager**, Morvarid Game Studio, Bushehr Iran
+- **Penetration Tester**, PGU APA, Bushehr Iran
 
 ## Let's Connect
 
-I'm always open to interesting conversations about technology, collaboration opportunities, or just a friendly chat about programming.
-
-Feel free to reach out to me through:
-
-- **Email**: [your.email@example.com](mailto:your.email@example.com)
-- **GitHub**: [github.com/mohsenabdolahi](https://github.com/mohsenabdolahi)
+- **Email**: [mohsen12abdolahi@gmail.com](mailto:mohsen12abdolahi@gmail.com)
+- **GitHub**: [github.com/MsN-12](https://github.com/MsN-12)
 - **LinkedIn**: [linkedin.com/in/mohsen-abdolahi](https://linkedin.com/in/mohsen-abdolahi)
-
----
-
-*"The best way to predict the future is to implement it."*

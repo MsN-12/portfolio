@@ -485,4 +485,4 @@ What patterns have you found most useful in your React projects? I'd love to hea
 
 ---
 
-*Have questions about implementing these patterns? Feel free to [contact me](/contact) or check out the example implementations on my [GitHub](https://github.com/mohsenabdolahi).*
+*Have questions about implementing these patterns? Feel free to [contact me](/contact) or check out my work on [GitHub](https://github.com/MsN-12).*

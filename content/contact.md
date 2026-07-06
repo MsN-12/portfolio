@@ -6,83 +6,33 @@ draft: false
 
 # Get in Touch
 
-I'm always interested in hearing about new opportunities, interesting projects, or just having a chat about technology and software development.
+I'm open to backend engineering roles, remote collaboration, and technical conversations around scalable systems, game backend, infrastructure, and analytics.
 
-## Let's Connect
+## Contact
 
-### 📧 Email
-**[mohsen@example.com](mailto:mohsen@example.com)**  
-*Best for: Project inquiries, collaboration opportunities, professional discussions*
+### Email
+**[mohsen12abdolahi@gmail.com](mailto:mohsen12abdolahi@gmail.com)**  
+Best for professional opportunities, project discussions, and direct collaboration.
 
-### 💼 LinkedIn
+### LinkedIn
 **[linkedin.com/in/mohsen-abdolahi](https://linkedin.com/in/mohsen-abdolahi)**  
-*Best for: Professional networking, career opportunities*
+Best for professional networking and career opportunities.
 
-### 🐙 GitHub
-**[github.com/mohsenabdolahi](https://github.com/mohsenabdolahi)**  
-*Best for: Code collaboration, open source contributions*
+### GitHub
+**[github.com/MsN-12](https://github.com/MsN-12)**  
+Best for code, projects, and technical background.
 
-### 🐦 Twitter
-**[@mohsenabdolahi](https://twitter.com/mohsenabdolahi)**  
-*Best for: Tech discussions, quick questions, sharing ideas*
+### Phone
+**[+98 9390433026](tel:+989390433026)**
 
----
+## Current Focus
 
-## What I'm Looking For
+- Backend development with C#/.NET and Go
+- Game backend services with Nakama
+- Event pipelines, analytics, and operational dashboards
+- Linux server operations, Docker, HAProxy/Nginx, Grafana, and CI/CD
 
-### 🚀 Project Collaboration
-- Open source contributions
-- Interesting side projects
-- Technical challenges
-- Startup opportunities
+## Location
 
-### 💡 Knowledge Sharing
-- Technical discussions
-- Code reviews
-- Mentoring opportunities
-- Speaking at events
-
-### 🤝 Professional Opportunities
-- Full-time positions
-- Contract work
-- Consulting projects
-- Remote-first companies
-
----
-
-## Current Status
-
-🟢 **Available for new opportunities**
-
-I'm currently open to discussing:
-- Full-stack development roles
-- Senior/Lead engineer positions
-- Remote-first opportunities
-- Interesting technical challenges
-
----
-
-## Response Time
-
-I aim to respond to all messages within:
-- **Email**: 1-2 business days
-- **LinkedIn**: 2-3 days
-- **GitHub**: 1-7 days (depending on the nature of the inquiry)
-- **Twitter**: Same day for quick questions
-
----
-
-## Let's Build Something Amazing Together
-
-Whether you have a project idea, want to discuss technology, or are looking for a passionate developer to join your team, I'd love to hear from you.
-
-*"The best time to plant a tree was 20 years ago. The second best time is now."*
-
----
-
-### 🌍 Location & Time Zone
-**Based in**: [Your Location]  
-**Time Zone**: [Your Time Zone]  
-**Available for**: Remote work, occasional travel
-
-*I'm comfortable working with teams across different time zones and have experience with asynchronous communication.*
+**Based in**: Iran, Fars  
+**Available for**: Remote work and collaboration across time zones

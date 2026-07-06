@@ -69,8 +69,8 @@ enableGitInfo = true   # ✅ already enabled, good for "last updated" dates
     [languages.en.params]
       subtitle = "Software Engineer - Backend Developer"
       owner = "Mohsen Abdolahi"
-      keywords = "software engineer, backend developer, c#, golang, .net, web development, programming, game development"
-      copyright = "© 2025 Mohsen Abdolahi"
+      keywords = "software engineer, backend developer, c#, golang, go, .net, asp.net core, kafka, clickhouse, nakama, devops, game backend"
+      copyright = "© 2026 Mohsen Abdolahi"
       menuMore = "Show more"
       readMore = "Read more"
       readOtherPosts = "Read other posts"
